@@ -7,19 +7,12 @@
 
 #endif //COMS327_MAIN_H
 typedef int bool;
-#define true = 1;
-#define false = 0;
-struct Animal{
-    char state;
-    int x;
-    int y;
-};
+#define true 1;
+#define false 0;
 
 int main(int argc, char *argv[]);
 
 int parseInt(char c);
-bool checkRules(char animal, int index);
+void checkRules(int yMax, char habitat[][yMax], int xMax);
 
-void updateSquare(struct Animal animal);
-
-void displayHabitat(char habitat);
+void displayHabitat(int yMax, char habitat[][yMax], int xMax);
