@@ -13,6 +13,6 @@ typedef int bool;
 int main(int argc, char *argv[]);
 
 int parseInt(char c);
-void checkRules(int yMax, char habitat[][yMax], int xMax);
+bool checkRules(char **universe, int height, int width);
 
-void displayHabitat(int yMax, char habitat[][yMax], int xMax);
+void displayuniverse(char** universe, int height, int width);
