@@ -5,6 +5,7 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 
 int main(int argc, char *argv[]){
@@ -15,6 +16,7 @@ int main(int argc, char *argv[]){
     setBoundaries(&dungeon);
     //printDungeon(&dungeon);
     placeRooms(&dungeon);
+    drawCorridors(&dungeon);
     printDungeon(&dungeon);
 
 
@@ -42,15 +44,16 @@ bool checkRoom(room_t *room, dungeon_t *dungeon){
 
 void placeRooms(dungeon_t *dungeon){
 
+    srand(time(_NULL));
     room_t temp;
     int tries;
-    //TODO find better method for randomly choosing a number from a range
+
     for (int count = 0; count < NUM_ROOMS; ++count) {
         //printDungeon(dungeon);
         temp.y = (rand()%d_HEIGHT-1)+1;
         temp.x = (rand()%d_WIDTH-1)+1;
-        temp.height = (rand()%r_MIN_H-1)+7;
-        temp.width = (rand()%r_MIN_W-1)+7;
+        temp.height = (rand()%r_MIN_H-1)+10;
+        temp.width = (rand()%r_MIN_W-1)+10;
 
         tries = 0;
 
@@ -108,3 +111,82 @@ void printDungeon(dungeon_t *dungeon){
         printf("%c",'\n');
     }
 }
+
+void drawCorridors(dungeon_t *dungeon){
+    int x1, x2, y1, y2;
+    int leftRight;
+    int upDown;
+    for (int i = 0; i < NUM_ROOMS-1; ++i) {
+        x1 = dungeon->rooms[i].x;
+        y1 = dungeon->rooms[i].y;
+        x2 = dungeon->rooms[i+1].x;
+        y2 = dungeon->rooms[i+1].y;
+
+        if(x1<x2) leftRight = -1;
+        else if(x1>x2) leftRight = 1;
+        else leftRight = 0;
+
+        if(y1<y2){
+            upDown = -1;
+        }
+        else if(y1>y2) upDown = 1;
+        else upDown = 0;
+
+        //traverse the y direction, using x2 as the x coordinate
+        for (int j = y2; j!=y1; j+=upDown) {
+            /*
+             * Check if the world unit is a ROCK, if so, make it a CORRIDOR.
+             * Otherwise, it is a rm_FLOOR or a CORRIDOR already.
+             */
+            if(dungeon->wunits[j][x2].type==ROCK){
+                dungeon->wunits[j][x2].type = CORRIDOR;
+                dungeon->wunits[j][x2].hardness = 0;
+            }
+
+        }
+
+        for (int k = x2; k != x1; k+=leftRight) {
+            if(dungeon->wunits[y1][k].type==ROCK){
+                dungeon->wunits[y1][k].type = CORRIDOR;
+                dungeon->wunits[y1][k].hardness = 0;
+            }
+        }
+    }
+
+    //connect last room to first
+    x1 = dungeon->rooms[NUM_ROOMS-1].x;
+    y1 = dungeon->rooms[NUM_ROOMS-1].y;
+    x2 = dungeon->rooms[0].x;
+    y2 = dungeon->rooms[0].y;
+
+    if(x1<x2) leftRight = -1;
+    else if(x1>x2) leftRight = 1;
+    else leftRight = 0;
+
+    if(y1<y2){
+        upDown = -1;
+    }
+    else if(y1>y2) upDown = 1;
+    else upDown = 0;
+    //traverse the y direction, using x2 as the x coordinate
+    for (int j = y2; j!=y1; j+=upDown) {
+        /*
+         * Check if the world unit is a ROCK, if so, make it a CORRIDOR.
+         * Otherwise, it is a rm_FLOOR or a CORRIDOR already.
+         */
+        if(dungeon->wunits[j][x2].type==ROCK){
+            dungeon->wunits[j][x2].type = CORRIDOR;
+            dungeon->wunits[j][x2].hardness = 0;
+        }
+
+    }
+
+    for (int k = x2; k != x1; k+=leftRight) {
+        if(dungeon->wunits[y1][k].type==ROCK){
+            dungeon->wunits[y1][k].type = CORRIDOR;
+            dungeon->wunits[y1][k].hardness = 0;
+        }
+    }
+}
+
+void applyCorridor(){};

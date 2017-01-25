@@ -15,7 +15,7 @@
 #define r_MIN_W 7
 #define r_MIN_H 5
 
-#define NUM_ROOMS 10
+#define NUM_ROOMS 15
 #define MAX_TRIES 2000
 
 
@@ -84,3 +84,5 @@ void setBoundaries(dungeon_t *dungeon);
  * @param dungeon the dungeon to be displayed
  */
 void printDungeon(dungeon_t *dungeon);
+
+void drawCorridors(dungeon_t *dungeon);
