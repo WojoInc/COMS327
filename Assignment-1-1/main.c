@@ -44,7 +44,7 @@ bool checkRoom(room_t *room, dungeon_t *dungeon){
 
 void placeRooms(dungeon_t *dungeon){
 
-    srand(time(_NULL));
+    srand((unsigned int) time(_NULL));
     room_t temp;
     int tries;
 
@@ -117,11 +117,11 @@ void drawCorridors(dungeon_t *dungeon){
     int x1, x2, y1, y2;
     int leftRight;
     int upDown;
-    for (int i = 0; i < NUM_ROOMS-1; ++i) {
-        x1 = dungeon->rooms[i].x;
-        y1 = dungeon->rooms[i].y;
-        x2 = dungeon->rooms[i+1].x;
-        y2 = dungeon->rooms[i+1].y;
+    room_t *temp;
+    for (int i = 0; i < NUM_ROOMS; ++i) {
+        getCentroid(&dungeon->rooms[i],&y1,&x1);
+        temp = getClosestRoom(&dungeon->rooms[i],dungeon->rooms);
+        getCentroid(temp,&y2,&x2);
 
         if(x1<x2) leftRight = -1;
         else if(x1>x2) leftRight = 1;
@@ -143,7 +143,6 @@ void drawCorridors(dungeon_t *dungeon){
                 dungeon->wunits[j][x2].type = CORRIDOR;
                 dungeon->wunits[j][x2].hardness = 0;
             }
-
         }
 
         for (int k = x2; k != x1; k+=leftRight) {
@@ -153,56 +152,41 @@ void drawCorridors(dungeon_t *dungeon){
             }
         }
     }
-
-    //connect last room to first
-    x1 = dungeon->rooms[NUM_ROOMS-1].x;
-    y1 = dungeon->rooms[NUM_ROOMS-1].y;
-    x2 = dungeon->rooms[0].x;
-    y2 = dungeon->rooms[0].y;
-
-    if(x1<x2) leftRight = -1;
-    else if(x1>x2) leftRight = 1;
-    else leftRight = 0;
-
-    if(y1<y2){
-        upDown = -1;
-    }
-    else if(y1>y2) upDown = 1;
-    else upDown = 0;
-    //traverse the y direction, using x2 as the x coordinate
-    for (int j = y2; j!=y1; j+=upDown) {
-        /*
-         * Check if the world unit is a ROCK, if so, make it a CORRIDOR.
-         * Otherwise, it is a rm_FLOOR or a CORRIDOR already.
-         */
-        if(dungeon->wunits[j][x2].type==ROCK){
-            dungeon->wunits[j][x2].type = CORRIDOR;
-            dungeon->wunits[j][x2].hardness = 0;
-        }
-
-    }
-
-    for (int k = x2; k != x1; k+=leftRight) {
-        if(dungeon->wunits[y1][k].type==ROCK){
-            dungeon->wunits[y1][k].type = CORRIDOR;
-            dungeon->wunits[y1][k].hardness = 0;
-        }
-    }
 }
 
-/**
- * Compare the distances of two points p1 and p2 to referencePoint.  Use dot products.
- * Do not take square roots.
- *
- * Ought to be private but made public for testing purpose.
- *
- * @param p1
- * @param p2
- * @return    0   if p1 and p2 are equidistant to referencePoint
- * 			 -1   if p1 is closer to referencePoint
- *            1   otherwise (i.e., if p2 is closer to referencePoint)
- */
-//TODO add method the gets the closest room and returns a reference to it. Leave compareDistance so it can be used to compare for distances other than rooms.
+room_t *getClosestRoom(room_t *room, room_t rooms[]){
+    //begin by assuming first room is closest
+    room_t *temp = &rooms[0];
+    //perform a sequential search on the rooms, updating the temp pointer if any rooms are found to be closer.
+    for (int i = 1; i < NUM_ROOMS; ++i) {
+        if(rooms[i].x==0){ //meaning that the room is not yet initialized
+            break;
+        }
+        else{
+            if(compareDistanceCtrd(room,temp,&rooms[i])>0){
+                temp = &rooms[i];
+            }
+        }
+    }
+    return temp;
+}
+
+void getCentroid(room_t *room, int *y, int *x){
+    //may be off by 1 due to integer division, but good enough for this purpose
+    *y = room->y+ room->height/2;
+    *x = room->x+ room->width/2;
+}
+
+int compareDistanceCtrd(room_t *ref, room_t *room1, room_t * room2){
+
+    int p1Res = dotProduct(ref->y,ref->x,room1->y,room1->x,room2->y,room2->x);
+    int p2Res = dotProduct(ref->y,ref->x,room2->y,room2->x,room1->y,room1->x);
+
+    if (p1Res == p2Res)return 0;
+    else if (p1Res < p2Res)return -1;
+    else return 1;
+}
+
 int compareDistance(room_t *ref, room_t *room1, room_t *room2)
 {
     int p1Res = dotProduct(ref->y,ref->x,room1->y,room1->x,room2->y,room2->x);
