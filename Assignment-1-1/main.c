@@ -113,6 +113,7 @@ void printDungeon(dungeon_t *dungeon){
 }
 
 void drawCorridors(dungeon_t *dungeon){
+
     int x1, x2, y1, y2;
     int leftRight;
     int upDown;
@@ -189,4 +190,33 @@ void drawCorridors(dungeon_t *dungeon){
     }
 }
 
-void applyCorridor(){};
+/**
+ * Compare the distances of two points p1 and p2 to referencePoint.  Use dot products.
+ * Do not take square roots.
+ *
+ * Ought to be private but made public for testing purpose.
+ *
+ * @param p1
+ * @param p2
+ * @return    0   if p1 and p2 are equidistant to referencePoint
+ * 			 -1   if p1 is closer to referencePoint
+ *            1   otherwise (i.e., if p2 is closer to referencePoint)
+ */
+//TODO add method the gets the closest room and returns a reference to it. Leave compareDistance so it can be used to compare for distances other than rooms.
+int compareDistance(room_t *ref, room_t *room1, room_t *room2)
+{
+    int p1Res = dotProduct(ref->y,ref->x,room1->y,room1->x,room2->y,room2->x);
+    int p2Res = dotProduct(ref->y,ref->x,room2->y,room2->x,room1->y,room1->x);
+
+    if (p1Res == p2Res)return 0;
+    else if (p1Res < p2Res)return -1;
+    else return 1;
+}
+
+int dotProduct(int refY, int refX, int y1, int x1, int y2, int x2)
+{
+    int xProduct = (x1-refX) * (x2-refX);
+    int yProduct = (y1-refY) * (y2-refY);
+
+    return xProduct+yProduct;
+}

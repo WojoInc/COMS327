@@ -86,3 +86,7 @@ void setBoundaries(dungeon_t *dungeon);
 void printDungeon(dungeon_t *dungeon);
 
 void drawCorridors(dungeon_t *dungeon);
+
+int compareDistance(room_t *ref, room_t *room1, room_t *room2);
+
+int dotProduct(int refY, int refX, int y1, int x1, int y2, int x2);
