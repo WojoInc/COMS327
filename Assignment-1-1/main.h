@@ -48,8 +48,6 @@ typedef struct dungeon{
     w_unit_t wunits[d_HEIGHT][d_WIDTH];
 }dungeon_t;
 
-//TODO implement functions for connecting rooms
-
 /**
  * Treats the @room as a layer, then flattens this layer onto the dungeon layer. This is done by setting the value
  * of any world unit in the dungeon that is within the area the room encompasses to wunit_state.ROOM.
@@ -85,4 +83,63 @@ void setBoundaries(dungeon_t *dungeon);
  */
 void printDungeon(dungeon_t *dungeon);
 
+/**
+ * Draws corridors between each of the rooms
+ *
+ * @param dungeon dungeon to draw corridors on
+ */
 void drawCorridors(dungeon_t *dungeon);
+
+/**
+ * Compares the distances between two rooms and a single reference room.
+ * Compares using the top left corner of each room
+ *
+ * @param ref the room to use as a reference point
+ * @param room1 first room to compare
+ * @param room2 second room to compare
+ * @return 0 if rooms are equidistant, 1 if room2 is closer, -1 if room1 is closer
+ */
+int compareDistance(room_t *ref, room_t *room1, room_t *room2);
+
+/**
+ * Effectively the same as compareDistance, only using the centroid of each room instead.
+ *
+ * @param ref the room to use as a reference point
+ * @param room1 first room to compare
+ * @param room2 second room to compare
+ * @return 0 if rooms are equidistant, 1 if room2 is closer, -1 if room1 is closer
+ */
+int compareDistanceCtrd(room_t *ref, room_t *room1, room_t * room2);
+
+/**
+ * Calculates the dot product of two points with respect to a single reference point.
+ * Uses integers and no trigonometery to avoid precision loss and needless casting.
+ *
+ * @param refY reference point Y
+ * @param refX reference point X
+ * @param y1 point 1 Y
+ * @param x1 point 1 X
+ * @param y2 point 2 Y
+ * @param x2 point 2 X
+ * @return the resulting dot product
+ */
+int dotProduct(int refY, int refX, int y1, int x1, int y2, int x2);
+
+/**
+ * Returns the centroid of a room. Uses integer division, so may be +/- 1 world unit
+ * from the true center, but it should be accurate enough for this purpose
+ *
+ * @param room the room to find the centroid of
+ * @param y the pointer to store y value to
+ * @param x the pointer to store x value to
+ */
+void getCentroid(room_t *room, int *y, int *x);
+
+/**
+ * Returns the closest room from an array of rooms, with respect to room
+ *
+ * @param room the reference room
+ * @param rooms array of rooms to search
+ * @return pointer to closest room
+ */
+room_t *getClosestRoom(room_t *room, room_t rooms[]);
