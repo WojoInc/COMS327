@@ -5,6 +5,6 @@ set(CMAKE_C_STANDARD 99)
 
 #set(ASSGN-0-SOURCE Assignment-0/main.c Assignment-0/main.h)
 
-set(ASSGN-11-SOURCE Assignment-1-1/main.c Assignment-1-1/main.h)
-add_executable(Assignment-1-1 ${ASSGN-11-SOURCE})
+set(ASSGN-12-SOURCE Assignment-1.02/main.c Assignment-1.02/main.h Assignment-1.02/dungeon.c Assignment-1.02/dungeon.h)
+add_executable(Assignment-1.02 ${ASSGN-12-SOURCE})
 #add_executable(Assignment0 ${ASSGN-0-SOURCE})
