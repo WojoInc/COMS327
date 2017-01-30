@@ -8,7 +8,7 @@
 #include <time.h>
 
 
-int main(int argc, char *argv[]){
+dungeon_t *generateDungeon(int argc, char *argv[]){
 
     //dungeon variable, an struct storing the weights of each square in the dungeon
     dungeon_t dungeon= {{0,0,0,0},{ROCK,0}};
