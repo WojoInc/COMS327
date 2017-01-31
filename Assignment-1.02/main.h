@@ -10,6 +10,8 @@
 
 #endif //COMS327_MAIN_H
 
+#define UNIX_FS
+#define DUNGEON_DIR "/.rlg327"
 #define DUNGEON_PATH "/.rlg327/dungeon"
 #define FILE_TYPE 12 //bytes 0-11 are for the file descriptor
 #define FILE_VER 4 //bytes 12-15 are for the file version and represent 1 32bit integer
