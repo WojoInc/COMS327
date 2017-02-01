@@ -8,8 +8,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define d_HEIGHT 160
-#define d_WIDTH 105
+#define d_HEIGHT 105
+#define d_WIDTH 160
 
 #define r_MIN_W 7
 #define r_MIN_H 5
@@ -44,7 +44,7 @@ typedef struct room{
 
 typedef struct dungeon{
     w_unit_t wunits[d_HEIGHT][d_WIDTH];
-    room_t rooms[];
+    room_t *rooms;
 }dungeon_t;
 
 dungeon_t generateDungeon();

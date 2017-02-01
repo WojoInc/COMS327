@@ -12,7 +12,8 @@ dungeon_t generateDungeon(){
 
     //dungeon variable, an struct storing the weights of each square in the dungeon
     dungeon_t *dungeon;
-    dungeon = malloc(sizeof(dungeon_t) + sizeof(room_t)*NUM_ROOMS);
+    dungeon = malloc(sizeof(dungeon_t));
+    dungeon->rooms = calloc(sizeof(room_t),NUM_ROOMS);
 
     setBoundaries(dungeon);
     //printDungeon(&dungeon);
@@ -131,14 +132,14 @@ int writeDungeon(dungeon_t *dungeon, FILE *f){
             }
         }
     }*/
-    for (int i = 0; i < d_WIDTH; ++i) {
-        for (int j = 0; j < d_HEIGHT; ++j) {
-            if(dungeon->wunits[j][i].type==(rm_FLOOR||CORRIDOR)){
+    for (int i = 0; i < d_HEIGHT; ++i) {
+        for (int j = 0; j < d_WIDTH; ++j) {
+            if(dungeon->wunits[i][j].type==(rm_FLOOR||CORRIDOR)){
                 fwrite(&NULL_BYTE,sizeof(char),1,f);
                 bytesWritten++;
             }
             else{
-                toWrite = dungeon->wunits[j][i].hardness;
+                toWrite = dungeon->wunits[i][j].hardness;
                 fwrite(&toWrite,sizeof(char),1,f);
                 bytesWritten++;
             }

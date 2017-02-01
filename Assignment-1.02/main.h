@@ -21,9 +21,13 @@
 #define DUNGEON_FILE_NAME "dungeon"
 #define FILE_TYPE 12 //bytes 0-11 are for the file descriptor
 #define FILE_VER 4 //bytes 12-15 are for the file version and represent 1 32bit integer
+#define VERSION 0 //define actual file version, defined here for later use
 #define FILE_SIZE 4 //bytes 16-19 are for the file size and represent 1 32bit integer
-#define DUNGEON_MATRIX 16800 //bytes 20-16819 are an array contatining the hardness of each cell in the dungeon
+#define ROOM_OFFSET 16820 //bytes after 16819 are reserved for room placement data
+#define ROOM_SIZE 4 //number of bytes needed to store information for each room, defined here for later use
 
 void saveDungeon(dungeon_t *dungeon);
 void loadDungeon(dungeon_t *dungeon);
-int calcSaveSize();
+unsigned int calcSaveSize();
+void parseFilePath(char *path);
+FILE *openDungeon(char *path, char *mode);
