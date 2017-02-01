@@ -6,6 +6,7 @@
 #define COMS327_DUNGEON_H
 
 #include <stdint.h>
+#include <stdio.h>
 
 #define d_HEIGHT 160
 #define d_WIDTH 105
@@ -13,7 +14,7 @@
 #define r_MIN_W 7
 #define r_MIN_H 5
 
-#define NUM_ROOMS 15
+#define NUM_ROOMS 20
 #define MAX_TRIES 2000
 
 
@@ -42,9 +43,11 @@ typedef struct room{
 }room_t;
 
 typedef struct dungeon{
-    room_t rooms[NUM_ROOMS];
     w_unit_t wunits[d_HEIGHT][d_WIDTH];
+    room_t rooms[];
 }dungeon_t;
+
+dungeon_t generateDungeon();
 
 /**
  * Treats the @room as a layer, then flattens this layer onto the dungeon layer. This is done by setting the value
@@ -80,6 +83,10 @@ void setBoundaries(dungeon_t *dungeon);
  * @param dungeon the dungeon to be displayed
  */
 void printDungeon(dungeon_t *dungeon);
+
+int writeDungeon(dungeon_t *dungeon, FILE *f);
+
+int writeRooms(dungeon_t *dungeon, FILE *f);
 
 /**
  * Draws corridors between each of the rooms

@@ -8,18 +8,18 @@
 #include <time.h>
 
 
-dungeon_t *generateDungeon(int argc, char *argv[]){
+dungeon_t generateDungeon(){
 
     //dungeon variable, an struct storing the weights of each square in the dungeon
-    dungeon_t dungeon= {{0,0,0,0},{ROCK,0}};
+    dungeon_t *dungeon;
+    dungeon = malloc(sizeof(dungeon_t) + sizeof(room_t)*NUM_ROOMS);
 
-    setBoundaries(&dungeon);
+    setBoundaries(dungeon);
     //printDungeon(&dungeon);
-    placeRooms(&dungeon);
-    drawCorridors(&dungeon);
-    printDungeon(&dungeon);
+    placeRooms(dungeon);
+    drawCorridors(dungeon);
 
-
+    return *dungeon;
 }
 
 void applyRoom(room_t *room, dungeon_t *dungeon){
@@ -76,11 +76,13 @@ void setBoundaries(dungeon_t *dungeon){
     for (int i = 0; i < d_HEIGHT; ++i) {
         dungeon->wunits[i][0].type = IMPASS;
         dungeon->wunits[i][d_WIDTH-1].type = IMPASS;
+        dungeon->wunits[i][0].hardness = 255;
+        dungeon->wunits[i][d_WIDTH-1].hardness = 255;
     }
     //top and bottom
     for (int j = 0; j < d_WIDTH; ++j) {
-        dungeon->wunits[0][j].type = IMPASS;
-        dungeon->wunits[d_HEIGHT-1][j].type = IMPASS;
+        dungeon->wunits[0][j].hardness = 255;
+        dungeon->wunits[d_HEIGHT-1][j].hardness = 255;
     }
 }
 
@@ -110,6 +112,61 @@ void printDungeon(dungeon_t *dungeon){
         }
         printf("%c",'\n');
     }
+}
+
+int writeDungeon(dungeon_t *dungeon, FILE *f){
+    int bytesWritten=0;
+    char *NULL_BYTE = 0x00;
+    int toWrite=0;
+/*    for (int i = 0; i < d_HEIGHT; ++i) {
+        for (int j = 0; j < d_WIDTH; ++j) {
+            if(dungeon->wunits[i][j].type==(rm_FLOOR||CORRIDOR)){
+                fwrite(&NULL_BYTE,sizeof(char),1,f);
+                bytesWritten++;
+            }
+            else{
+                toWrite = (uint8_t)htobe32((unsigned int) dungeon->wunits[i][j].hardness);
+                fwrite(&toWrite,sizeof(char),1,f);
+                bytesWritten++;
+            }
+        }
+    }*/
+    for (int i = 0; i < d_WIDTH; ++i) {
+        for (int j = 0; j < d_HEIGHT; ++j) {
+            if(dungeon->wunits[j][i].type==(rm_FLOOR||CORRIDOR)){
+                fwrite(&NULL_BYTE,sizeof(char),1,f);
+                bytesWritten++;
+            }
+            else{
+                toWrite = dungeon->wunits[j][i].hardness;
+                fwrite(&toWrite,sizeof(char),1,f);
+                bytesWritten++;
+            }
+        }
+    }
+    return bytesWritten;
+}
+
+int writeRooms(dungeon_t *dungeon, FILE *f){
+    int bytesWritten=0;
+    int x,y,height,width;
+    for (int i = 0; i < NUM_ROOMS; ++i) {
+        /*x = htobe32((unsigned int)dungeon->rooms[i].x);
+        y = htobe32((unsigned int)dungeon->rooms[i].y);
+        width = htobe32((unsigned int)dungeon->rooms[i].width);
+        height = htobe32((unsigned int)dungeon->rooms[i].height);*/
+        x = dungeon->rooms[i].x;
+        y = dungeon->rooms[i].y;
+        width = dungeon->rooms[i].width;
+        height = dungeon->rooms[i].height;
+
+        fwrite(&dungeon->rooms[i].x,sizeof(int),1,f);
+        fwrite(&dungeon->rooms[i].y,sizeof(char),1,f);
+        fwrite(&dungeon->rooms[i].width,sizeof(char),1,f);
+        fwrite(&dungeon->rooms[i].height,sizeof(char),1,f);
+        bytesWritten += 4;
+    }
+    return bytesWritten;
 }
 
 void drawCorridors(dungeon_t *dungeon){
