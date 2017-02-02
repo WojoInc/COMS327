@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <getopt.h>
 #include <sys/stat.h>
 #include <memory.h>
 #include <endian.h>
@@ -15,17 +14,53 @@
 
 int main(int argc, char *argv[]){
     //TODO implement code to handle commandline args.
-    if(argc<2)printf("%s\n","Incorrect syntax");
-    if(argc==2||argc==3){
+    int opt = 0;
+    int long_index =0;
+    bool save=false,load=false,help=false;
+    while ((opt = getopt_long_only(argc, argv,"", long_options, &long_index )) != -1) {
+        switch (opt) {
+            case 'o' : save = true;
+                break;
+            case 'i' : load = true;
+                break;
+            case 'h' : help = true;
+                break;
+            default:
+                help = true;
+                load = false;
+                save = false;
+        }
     }
-    dungeon_t dungeon = generateDungeon();
-    saveDungeon(&dungeon);
-    printDungeon(&dungeon);
-    loadDungeon(&dungeon);
-    printDungeon(&dungeon);
-    free(dungeon.rooms);
 
+    /*
+     * Process functions based on command line args. For now, only save, load, and help
+     * are defined.
+     */
+
+    dungeon_t dungeon;
+    if(save){
+        dungeon = generateDungeon();
+        saveDungeon(&dungeon);
+        printDungeon(&dungeon);
+        free(dungeon.rooms);
+    }
+    if(load){
+        dungeon = generateDungeon();
+        loadDungeon(&dungeon);
+        printDungeon(&dungeon);
+        free(dungeon.rooms);
+    }
+    if(help){
+        //TODO implement method that prints the usage
+        printf("%s","Usage is: dungeon [options]"
+                "\n--save save dungeon to file at ./rlg327"
+                "\n--load load dungeon from file at ./rlg327"
+                "\n--help display this help message");
+    }
+    //free dynamic array before closing
+    //free(dungeon.rooms);
 }
+
 void loadDungeon(dungeon_t *dungeon){
     char path[80];
     char fileDesc[FILE_TYPE];
@@ -48,7 +83,7 @@ void loadDungeon(dungeon_t *dungeon){
     fileSize = be32toh(fileSize);
     numRooms = (fileSize - ROOM_OFFSET)/ROOM_SIZE;// hardcoded value for now. will change when we get to the point where the dimensions of the dungeon can change
     dungeon = malloc(sizeof(dungeon_t) );
-    dungeon->rooms = malloc(numRooms * sizeof(room_t));
+    dungeon->rooms = calloc(sizeof(room_t),numRooms);
 
 
     /*
