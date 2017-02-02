@@ -14,7 +14,7 @@
 #define r_MIN_W 7
 #define r_MIN_H 5
 
-#define NUM_ROOMS 20
+#define NUM_ROOMS 15
 #define MAX_TRIES 2000
 
 
@@ -47,7 +47,30 @@ typedef struct dungeon{
     room_t *rooms;
 }dungeon_t;
 
+/**
+ * Generates a new dungeon.
+ *
+ * @return value of new dungeon
+ */
 dungeon_t generateDungeon();
+
+/**
+ * Generates a new dungeon with number of rooms given by @numRooms.
+ *
+ * Can also be used to allocate space when reading dungeon from file.
+ *
+ * ***To be deprecated later****
+ * @param numRooms number of rooms to allocate space for
+ * @return value of new dungeon
+ */
+dungeon_t generateDungeon_d(int numRooms);
+
+/**
+ * Randomizes the hardness of each world unit in @dungeon
+ *
+ * @param dungeon dungeon to randomize
+ */
+void randHardness(dungeon_t *dungeon);
 
 /**
  * Treats the @room as a layer, then flattens this layer onto the dungeon layer. This is done by setting the value
@@ -84,8 +107,23 @@ void setBoundaries(dungeon_t *dungeon);
  */
 void printDungeon(dungeon_t *dungeon);
 
+/**
+ * Writes contents of @dungeon to file @f.
+ * Writes only the values of the hardness of the world units.
+ *
+ * @param dungeon the dungeon to be written
+ * @param f the save file to write to
+ * @return number of bytes written
+ */
 int writeDungeon(dungeon_t *dungeon, FILE *f);
 
+/**
+ * Writes the location data for each room in @dungeon to @f.
+ *
+ * @param dungeon dungeon to load rooms from
+ * @param f dungeon save file
+ * @return number of bytes written
+ */
 int writeRooms(dungeon_t *dungeon, FILE *f);
 
 /**

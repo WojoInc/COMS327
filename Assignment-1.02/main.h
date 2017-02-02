@@ -31,10 +31,40 @@ static struct option long_options[] = {
         {0,0,0,0}
 };
 
+/**
+ * Saves @dungeon to a file path created at %HOME%/.rlg327/dungeon
+ * @param dungeon the dungeon to be saved
+ */
 void saveDungeon(dungeon_t *dungeon);
+
+/**
+ * Loads @dungeon from a file path created at %HOME%/.rlg327/dungeon
+ * @param dungeon dungeon to be loaded
+ */
 void loadDungeon(dungeon_t *dungeon);
+
+/**
+ * Calculates the size of the dungeon to be saved, based on the number of
+ * rooms, and constants predefined in main.h
+ * @return size of the savefile in bytes
+ */
 unsigned int calcSaveSize();
+
+/**
+ * Parses the file path for the save file.
+ * @param path address to store path
+ */
 void parseFilePath(char *path);
+
+/**
+ * Opens the dungeon save file for either reading or writing. Value passed to @mode is
+ * passed directly to the mode parameter of fopen(). Also handles displaying appropriate
+ * errors when file cannot be read/written.
+ *
+ * @param path the file path
+ * @param mode the mode for file I/O
+ * @return file handle for the dungeon save file
+ */
 FILE *openDungeon(char *path, char *mode);
 
 #endif //COMS327_MAIN_H

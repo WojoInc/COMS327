@@ -13,7 +13,7 @@
 
 
 int main(int argc, char *argv[]){
-    //TODO implement code to handle commandline args.
+
     int opt = 0;
     int long_index =0;
     bool save=false,load=false,help=false;
@@ -45,20 +45,16 @@ int main(int argc, char *argv[]){
         free(dungeon.rooms);
     }
     if(load){
-        dungeon = generateDungeon();
         loadDungeon(&dungeon);
         printDungeon(&dungeon);
         free(dungeon.rooms);
     }
     if(help){
-        //TODO implement method that prints the usage
         printf("%s","Usage is: dungeon [options]"
                 "\n--save save dungeon to file at ./rlg327"
                 "\n--load load dungeon from file at ./rlg327"
                 "\n--help display this help message");
     }
-    //free dynamic array before closing
-    //free(dungeon.rooms);
 }
 
 void loadDungeon(dungeon_t *dungeon){
@@ -82,19 +78,30 @@ void loadDungeon(dungeon_t *dungeon){
 
     fileSize = be32toh(fileSize);
     numRooms = (fileSize - ROOM_OFFSET)/ROOM_SIZE;// hardcoded value for now. will change when we get to the point where the dimensions of the dungeon can change
-    dungeon = malloc(sizeof(dungeon_t) );
-    dungeon->rooms = calloc(sizeof(room_t),numRooms);
 
-
+    *dungeon = generateDungeon_d(numRooms);
     /*
      * Read the dungeon hardnesses in row major order,
      * Then parse the room data, and place the rooms in the dungeon.
+     *
+     * NOTE: In order to mark the corridors properly, all world units with a hardness of 0
+     * are given a type of CORRIDOR.
+     * This is overwritten later, if the world unit becomes part of a room, leaving the remaining
+     * world units as CORRIDORS
+     *
      */
     for (int i = 0; i < d_HEIGHT; ++i) {
         for (int j = 0; j < d_WIDTH; ++j) {
              fread(&dungeon->wunits[i][j].hardness,sizeof(char),1,f);
-            if(dungeon->wunits[i][j].hardness==255)dungeon->wunits[i][j].type=IMPASS;
-            else dungeon->wunits[i][j].type=ROCK;
+            if(dungeon->wunits[i][j].hardness==255){
+                dungeon->wunits[i][j].type=IMPASS;
+            }
+            else if(dungeon->wunits[i][j].hardness==0){
+                dungeon->wunits[i][j].type = CORRIDOR;
+            }
+            else {
+                dungeon->wunits[i][j].type=ROCK;
+            }
         }
     }
     for (int k = 0; k < numRooms; ++k) {
@@ -108,6 +115,7 @@ void loadDungeon(dungeon_t *dungeon){
     //close file
     fclose(f);
 }
+
 void saveDungeon(dungeon_t *dungeon){
     char path[80];
     unsigned int bytesWritten = 0;
@@ -135,7 +143,6 @@ void saveDungeon(dungeon_t *dungeon){
     //close file
     fclose(f);
 }
-
 
 unsigned int calcSaveSize(){
     //number of bytes to write for dungeon world units

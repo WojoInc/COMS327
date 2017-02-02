@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-
+//TODO convert all dungeon generation to make use of dynamic sizes, eliminate static definitions in dungeon.h
 dungeon_t generateDungeon(){
 
     //dungeon variable, an struct storing the weights of each square in the dungeon
@@ -15,6 +15,7 @@ dungeon_t generateDungeon(){
     dungeon = malloc(sizeof(dungeon_t));
     dungeon->rooms = calloc(sizeof(room_t),NUM_ROOMS);
 
+    randHardness(dungeon);
     setBoundaries(dungeon);
     //printDungeon(&dungeon);
     placeRooms(dungeon);
@@ -23,19 +24,48 @@ dungeon_t generateDungeon(){
     return *dungeon;
 }
 
+dungeon_t generateDungeon_d(int numRooms){
+
+    //dungeon variable, an struct storing the weights of each square in the dungeon
+    dungeon_t *dungeon;
+    dungeon = malloc(sizeof(dungeon_t));
+    dungeon->rooms = calloc(sizeof(room_t),(size_t)numRooms);
+
+    randHardness(dungeon);
+    setBoundaries(dungeon);
+    //printDungeon(&dungeon);
+    placeRooms(dungeon);
+    drawCorridors(dungeon);
+
+    return *dungeon;
+}
+
+void randHardness(dungeon_t *dungeon){
+    srand(time(NULL));
+    for (int i = 0; i < d_HEIGHT; ++i) {
+        for (int j = 0; j < d_WIDTH; ++j) {
+            dungeon->wunits[i][j].hardness=(rand() % 253)+1;
+        }
+    }
+
+}
+
 void applyRoom(room_t *room, dungeon_t *dungeon){
     for (int i = 0; i < room->height; ++i) {
         for (int j = 0; j < room->width; ++j) {
             dungeon->wunits[room->y+i][room->x+j].type = rm_FLOOR;
+            dungeon->wunits[room->y+i][room->x+j].hardness = 0;
         }
     }
 }
 
 bool checkRoom(room_t *room, dungeon_t *dungeon){
 
+    if((room->x+room->width)>=d_WIDTH) return false;
+    if((room->y+room->height)>=d_HEIGHT) return false;
     //check to make sure there is a 1 world unit gap around the area the room would cover
     for (int i = -1; i <= room->height; ++i) {
-        //check each row verify world units are either ROCK or a CORRIDOR
+        //check each row verify world units are either ROCK
         for (int j = -1; j < room->width; ++j) {
             if(dungeon->wunits[room->y+i][room->x+j].type!=ROCK) return false;
         }
@@ -51,18 +81,18 @@ void placeRooms(dungeon_t *dungeon){
 
     for (int count = 0; count < NUM_ROOMS; ++count) {
         //printDungeon(dungeon);
-        temp.y = (rand()%d_HEIGHT-1)+1;
-        temp.x = (rand()%d_WIDTH-1)+1;
+        temp.y = (rand()%d_HEIGHT)+1;
+        temp.x = (rand()%d_WIDTH)+1;
         temp.height = (rand()%r_MIN_H-1)+10;
         temp.width = (rand()%r_MIN_W-1)+10;
 
         tries = 0;
 
         while (checkRoom(&temp, dungeon) == false && tries < MAX_TRIES) {
-            temp.y = (rand() % d_HEIGHT - 1) + 1;
-            temp.x = (rand() % d_WIDTH - 1) + 1;
-            temp.height = (rand() % r_MIN_H - 1) + 7;
-            temp.width = (rand() % r_MIN_W - 1) + 7;
+            temp.y = (rand() % d_HEIGHT) + 1;
+            temp.x = (rand() % d_WIDTH) + 1;
+            temp.height = (rand() % r_MIN_H) + 7;
+            temp.width = (rand() % r_MIN_W) + 7;
             tries++;
         }
         if (tries < MAX_TRIES) { //meaning we did not time out, and room is valid
@@ -161,7 +191,7 @@ int writeRooms(dungeon_t *dungeon, FILE *f){
         width = dungeon->rooms[i].width;
         height = dungeon->rooms[i].height;
 
-        fwrite(&dungeon->rooms[i].x,sizeof(int),1,f);
+        fwrite(&dungeon->rooms[i].x,sizeof(char),1,f);
         fwrite(&dungeon->rooms[i].y,sizeof(char),1,f);
         fwrite(&dungeon->rooms[i].width,sizeof(char),1,f);
         fwrite(&dungeon->rooms[i].height,sizeof(char),1,f);
