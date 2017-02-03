@@ -1,0 +1,1 @@
+/usr/bin/cc  -g  -Wl,--enable-auto-import CMakeFiles/ASSGN0.dir/Assignment-1-1/stack.c.o  -o ASSGN0.exe -Wl,--out-implib,libASSGN0.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

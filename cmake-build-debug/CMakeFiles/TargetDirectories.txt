@@ -1,0 +1,3 @@
+/cygdrive/c/Users/97wes/ClionProjects/COMS327/cmake-build-debug/CMakeFiles/edit_cache.dir
+/cygdrive/c/Users/97wes/ClionProjects/COMS327/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/c/Users/97wes/ClionProjects/COMS327/cmake-build-debug/CMakeFiles/Assignment-1.02.dir
