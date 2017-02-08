@@ -9,7 +9,7 @@
 
 //TODO convert all dungeon generation to make use of dynamic sizes, eliminate static definitions in dungeon.h
 dungeon_t generateDungeon(){
-
+//TODO set world unit x and y to its respective position in the dungeon
     //dungeon variable, an struct storing the weights of each square in the dungeon
     dungeon_t *dungeon;
     dungeon = malloc(sizeof(dungeon_t));

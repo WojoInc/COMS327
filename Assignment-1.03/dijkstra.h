@@ -7,11 +7,14 @@
 
 #include "dungeon.h"
 
-#define RANGE1 0
+#define WEIGHT_1 1
+#define WEIGHT_2 1
+#define WEIGHT_3 2
+#define WEIGHT_4 3
 
 typedef struct vertex{
-    struct vertex *neighbors[];
-    int distance;
+    w_unit_t *w_unit;
+    int weight;
     struct vertex *prev;
 }vertex_t;
 
