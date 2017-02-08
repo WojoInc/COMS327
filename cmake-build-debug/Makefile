@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /cygdrive/c/Users/97wes/.CLion2016.3/system/cygwin_cmake/bin/cmake.exe
+CMAKE_COMMAND = /opt/clion-2016.3.2/bin/cmake/bin/cmake
 
 # The command to remove a file.
-RM = /cygdrive/c/Users/97wes/.CLion2016.3/system/cygwin_cmake/bin/cmake.exe -E remove -f
+RM = /opt/clion-2016.3.2/bin/cmake/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /cygdrive/c/Users/97wes/ClionProjects/COMS327
+CMAKE_SOURCE_DIR = /home/wojoinc/CLionProjects/COMS327
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /cygdrive/c/Users/97wes/ClionProjects/COMS327/cmake-build-debug
+CMAKE_BINARY_DIR = /home/wojoinc/CLionProjects/COMS327/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /cygdrive/c/Users/97wes/ClionProjects/COMS327/cmake-build-deb
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/cygdrive/c/Users/97wes/.CLion2016.3/system/cygwin_cmake/bin/cmake.exe -E echo No\ interactive\ CMake\ dialog\ available.
+	/opt/clion-2016.3.2/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -70,7 +70,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/cygdrive/c/Users/97wes/.CLion2016.3/system/cygwin_cmake/bin/cmake.exe -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/opt/clion-2016.3.2/bin/cmake/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/Users/97wes/ClionProjects/COMS327/cmake-build-debug/CMakeFiles /cygdrive/c/Users/97wes/ClionProjects/COMS327/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wojoinc/CLionProjects/COMS327/cmake-build-debug/CMakeFiles /home/wojoinc/CLionProjects/COMS327/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/Users/97wes/ClionProjects/COMS327/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wojoinc/CLionProjects/COMS327/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -150,32 +150,59 @@ Assignment-1.02/dungeon.c.s:
 	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.02/dungeon.c.s
 .PHONY : Assignment-1.02/dungeon.c.s
 
-Assignment-1.02/main.o: Assignment-1.02/main.c.o
+Assignment-1.03/dijkstra.o: Assignment-1.03/dijkstra.c.o
 
-.PHONY : Assignment-1.02/main.o
+.PHONY : Assignment-1.03/dijkstra.o
 
 # target to build an object file
-Assignment-1.02/main.c.o:
-	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.02/main.c.o
-.PHONY : Assignment-1.02/main.c.o
+Assignment-1.03/dijkstra.c.o:
+	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.03/dijkstra.c.o
+.PHONY : Assignment-1.03/dijkstra.c.o
 
-Assignment-1.02/main.i: Assignment-1.02/main.c.i
+Assignment-1.03/dijkstra.i: Assignment-1.03/dijkstra.c.i
 
-.PHONY : Assignment-1.02/main.i
+.PHONY : Assignment-1.03/dijkstra.i
 
 # target to preprocess a source file
-Assignment-1.02/main.c.i:
-	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.02/main.c.i
-.PHONY : Assignment-1.02/main.c.i
+Assignment-1.03/dijkstra.c.i:
+	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.03/dijkstra.c.i
+.PHONY : Assignment-1.03/dijkstra.c.i
 
-Assignment-1.02/main.s: Assignment-1.02/main.c.s
+Assignment-1.03/dijkstra.s: Assignment-1.03/dijkstra.c.s
 
-.PHONY : Assignment-1.02/main.s
+.PHONY : Assignment-1.03/dijkstra.s
 
 # target to generate assembly for a file
-Assignment-1.02/main.c.s:
-	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.02/main.c.s
-.PHONY : Assignment-1.02/main.c.s
+Assignment-1.03/dijkstra.c.s:
+	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.03/dijkstra.c.s
+.PHONY : Assignment-1.03/dijkstra.c.s
+
+Assignment-1.03/queue.o: Assignment-1.03/queue.c.o
+
+.PHONY : Assignment-1.03/queue.o
+
+# target to build an object file
+Assignment-1.03/queue.c.o:
+	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.03/queue.c.o
+.PHONY : Assignment-1.03/queue.c.o
+
+Assignment-1.03/queue.i: Assignment-1.03/queue.c.i
+
+.PHONY : Assignment-1.03/queue.i
+
+# target to preprocess a source file
+Assignment-1.03/queue.c.i:
+	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.03/queue.c.i
+.PHONY : Assignment-1.03/queue.c.i
+
+Assignment-1.03/queue.s: Assignment-1.03/queue.c.s
+
+.PHONY : Assignment-1.03/queue.s
+
+# target to generate assembly for a file
+Assignment-1.03/queue.c.s:
+	$(MAKE) -f CMakeFiles/Assignment-1.02.dir/build.make CMakeFiles/Assignment-1.02.dir/Assignment-1.03/queue.c.s
+.PHONY : Assignment-1.03/queue.c.s
 
 # Help Target
 help:
@@ -189,9 +216,12 @@ help:
 	@echo "... Assignment-1.02/dungeon.o"
 	@echo "... Assignment-1.02/dungeon.i"
 	@echo "... Assignment-1.02/dungeon.s"
-	@echo "... Assignment-1.02/main.o"
-	@echo "... Assignment-1.02/main.i"
-	@echo "... Assignment-1.02/main.s"
+	@echo "... Assignment-1.03/dijkstra.o"
+	@echo "... Assignment-1.03/dijkstra.i"
+	@echo "... Assignment-1.03/dijkstra.s"
+	@echo "... Assignment-1.03/queue.o"
+	@echo "... Assignment-1.03/queue.i"
+	@echo "... Assignment-1.03/queue.s"
 .PHONY : help
 
 
