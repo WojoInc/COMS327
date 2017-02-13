@@ -9,14 +9,4 @@
 
 #define RANGE1 0
 
-typedef struct vertex{
-    struct vertex *neighbors[];
-    int distance;
-    struct vertex *prev;
-}vertex_t;
-
-typedef struct graph{
-    int size;
-    vertex_t *verticies[];
-}graph_t;
 #endif //COMS327_DIJKSTRA_H
