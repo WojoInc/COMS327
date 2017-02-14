@@ -8,11 +8,10 @@
 #include <time.h>
 
 //TODO convert all dungeon generation to make use of dynamic sizes, eliminate static definitions in dungeon.h
-dungeon_t generateDungeon(){
+dungeon_t *generateDungeon(){
 //TODO set world unit x and y to its respective position in the dungeon
     //dungeon variable, an struct storing the weights of each square in the dungeon
-    dungeon_t *dungeon;
-    dungeon = malloc(sizeof(dungeon_t));
+    dungeon_t *dungeon = malloc(sizeof(dungeon_t));
     dungeon->rooms = calloc(sizeof(room_t),NUM_ROOMS);
 
     randHardness(dungeon);
@@ -21,7 +20,7 @@ dungeon_t generateDungeon(){
     placeRooms(dungeon);
     drawCorridors(dungeon);
 
-    return *dungeon;
+    return dungeon;
 }
 
 dungeon_t generateDungeon_d(int numRooms){
@@ -45,6 +44,8 @@ void randHardness(dungeon_t *dungeon){
     for (int i = 0; i < d_HEIGHT; ++i) {
         for (int j = 0; j < d_WIDTH; ++j) {
             dungeon->wunits[i][j].hardness=(rand() % 253)+1;
+            dungeon->wunits[i][j].y=i;
+            dungeon->wunits[i][j].x=j;
         }
     }
 

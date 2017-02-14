@@ -42,8 +42,10 @@ void addWithPriority(heap_t *heap, void * element, int priority){
         temp->left->parent=temp;
         temp->right->parent=temp;
         temp->parent = NULL;
+        temp->prevSibling = NULL;
         heap->min = temp;
         heap->next  = &heap->min->left;
+        heap->last = &heap->min;
         heap->size++;
 
         //setup the first two child nodes to recognize each other
@@ -57,6 +59,7 @@ void addWithPriority(heap_t *heap, void * element, int priority){
         temp->right = malloc(sizeof(heap_n));
         temp->left->parent = temp;
         temp->right->parent = temp;
+        temp->prevSibling = heap->last;
         temp->parent = (*heap->next)->parent;
         *heap->next = temp;
 
@@ -85,7 +88,7 @@ void addWithPriority(heap_t *heap, void * element, int priority){
         heap->size++;
     }
 }
-//TODO handle multiple successive removals, set heap.next to removed node, and heap.last to node preceeding heap.next
+//TODO handle detection of empty children to eliminate incorrect swaps
 void *removeMin(heap_t *heap){
     void *temp;
     temp = heap->min->data;
@@ -93,43 +96,70 @@ void *removeMin(heap_t *heap){
     /*
      * Grab last node in tree, and bring it to the root. Then, while there is
      * at least one child with lower priority than this node, swap node with smallest
-     * child.
+     * child. This allows the heap to decide which child is next smallest and should be
+     * moved to the root after removal.
      */
     heap->min->data = (*heap->last)->data;
     heap->min->priority = (*heap->last)->priority;
-    //effectively remove the node from the tree, keeping its allocated memory for now.
-    (*heap->last)->priority=0;
-    (*heap->last)->data = NULL;
 
     heap_n *walker = heap->min;
-    while(walker->left->priority<walker->priority||walker->right->priority<walker->priority){
-        if(walker->left->priority<walker->priority){
+    while(!(walker->left==NULL && walker->right==NULL) && !(walker->left->priority==0 && walker->right->priority==0) &&
+            (walker->left->priority<walker->priority||walker->right->priority<walker->priority)){
+
+        //if both left and right child have lower priorities than walker node, pick the smaller of the two
+        if(walker->left->priority<walker->priority&&walker->right->priority<walker->priority){
+
+            if(walker->left->priority>=walker->right->priority){//if right child has lower priority
+                swap(walker,walker->right);
+                walker = walker->right;
+            }
+            else{
+                swap(walker,walker->left);
+                walker = walker->left;
+            }
+        }
+            //only one of the children has lower priority
+        else if(walker->left->priority<walker->priority){
             swap(walker,walker->left);
+            walker = walker->left;
         }
         else{
             swap(walker,walker->right);
+            walker = walker->right;
         }
     }
+
+    /*
+     * set heap.next to removed node's position
+     * set heap.last to the new most recently added node.
+     */
+    heap->next = heap->last;
+
+    //effectively remove the node from the tree, keeping its allocated memory for now.
+    (*heap->last)->priority=0;
+    (*heap->last)->data = NULL;
+    heap->last = (*heap->last)->prevSibling;
+    heap->size--;
     return temp;
 }
 
 int main(int argc, char *argv[]){
     heap_t * heap = malloc(sizeof(heap_t));
     heap->size = 0;
-    w_unit_t test = {rm_FLOOR,0,1,101};
-    w_unit_t test2 = {rm_FLOOR,0,1,99};
-    w_unit_t test3;
-    w_unit_t test4 = {rm_FLOOR,0,1,100};
-    w_unit_t test5;
-    w_unit_t test6;
-    addWithPriority(heap,&test, 5);
-    addWithPriority(heap,&test2, 1);
-    addWithPriority(heap,&test3, 7);
-    addWithPriority(heap,&test,3);
-    addWithPriority(heap,&test,8);
-    addWithPriority(heap,&test,9);
-    printf("%d",((w_unit_t*)removeMin(heap))->hardness);
-    printf("%d",((w_unit_t*)removeMin(heap))->hardness);
-    //printf("%d",((w_unit_t*)removeMin(heap))->hardness);
+    w_unit_t test = {rm_FLOOR,0,1,1};
+    w_unit_t test2 = {rm_FLOOR,0,1,2};
+    w_unit_t test3 = {rm_FLOOR,0,1,4};
+    w_unit_t test4 = {rm_FLOOR,0,1,4};
+    w_unit_t test5 = {rm_FLOOR,0,1,4};
+    w_unit_t test6 = {rm_FLOOR,0,1,4};
+    addWithPriority(heap,&test, 1);
+    addWithPriority(heap,&test2, 3);
+    addWithPriority(heap,&test3, 2);
+    addWithPriority(heap,&test4, 4);
+    addWithPriority(heap,&test5, 8);
+    addWithPriority(heap,&test6, 9);
+    printf("%d\n",((w_unit_t*)removeMin(heap))->hardness);
+    printf("%d\n",((w_unit_t*)removeMin(heap))->hardness);
+    printf("%d\n",((w_unit_t*)removeMin(heap))->hardness);
     int x;
 }

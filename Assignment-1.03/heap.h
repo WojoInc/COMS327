@@ -10,8 +10,10 @@
 typedef struct heap_node{
     void * data;
     int priority;
+    bool isEmpty;
     struct heap_node *parent;
     struct heap_node **nextSibling;
+    struct heap_node **prevSibling;
     struct heap_node *left;
     struct heap_node *right;
 }heap_n;

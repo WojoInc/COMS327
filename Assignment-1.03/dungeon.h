@@ -54,7 +54,7 @@ typedef struct dungeon{
  *
  * @return value of new dungeon
  */
-dungeon_t generateDungeon();
+dungeon_t *generateDungeon();
 
 /**
  * Generates a new dungeon with number of rooms given by @numRooms.
