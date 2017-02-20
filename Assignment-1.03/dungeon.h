@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include "proj_incl.h"
 
 #define d_HEIGHT 105
 #define d_WIDTH 160
@@ -16,11 +17,6 @@
 
 #define NUM_ROOMS 15
 #define MAX_TRIES 2000
-
-
-typedef int bool;
-#define true 1
-#define false 0
 
 typedef enum wunit_type{
     IMPASS = 255,

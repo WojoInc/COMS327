@@ -6,6 +6,7 @@
 #define COMS327_DIJKSTRA_H
 
 #include "dungeon.h"
+#include "heap_a.h"
 
 #define WEIGHT_1 1
 #define WEIGHT_2 1
@@ -13,17 +14,23 @@
 #define WEIGHT_4 3
 
 typedef struct vertex{
-    w_unit_t *w_unit;
     int weight;
+    bool visited;
+    bool queued;
+    w_unit_t *w_unit;
     struct vertex *prev;
+    struct vertex **neighbors;
 }vertex_t;
 
 typedef struct graph{
     int size;
-    vertex_t *verticies[];
+    dungeon_t *dungeon;
+    vertex_t *source;
+    vertex_t *verticies;
 }graph_t;
 
-void dijkstra(dungeon_t *dungeon, w_unit_t *source);
-void updateAdjacent(dungeon_t *dungeon, w_unit_t *source, int weight[d_HEIGHT][d_WIDTH], bool visited[d_HEIGHT][d_WIDTH]);
-w_unit_t *getLightestNeighbor(dungeon_t *dungeon, w_unit_t *source, int weight[d_HEIGHT][d_WIDTH], bool visited[d_HEIGHT][d_WIDTH]);
+void dijkstra(graph_t *graph);
+graph_t *create_graph_dungeon(dungeon_t *dungeon, w_unit_t *source);
+void update_adjacent(heap_t *heap, vertex_t *source);
+int w_unit_weight(int weight, w_unit_t *w_unit);
 #endif //COMS327_DIJKSTRA_H

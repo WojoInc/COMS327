@@ -48,10 +48,10 @@ RM = /opt/clion-2016.3.2/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/wojoinc/CLionProjects/COMS327
+CMAKE_SOURCE_DIR = /home/wojoinc/COMS327
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/wojoinc/CLionProjects/COMS327/cmake-build-debug
+CMAKE_BINARY_DIR = /home/wojoinc/COMS327/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wojoinc/CLionProjects/COMS327/cmake-build-debug/CMakeFiles /home/wojoinc/CLionProjects/COMS327/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wojoinc/COMS327/cmake-build-debug/CMakeFiles /home/wojoinc/COMS327/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wojoinc/CLionProjects/COMS327/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wojoinc/COMS327/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,6 +123,33 @@ Assignment-1.03/fast:
 	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/build
 .PHONY : Assignment-1.03/fast
 
+Assignment-1.03/dijkstra.o: Assignment-1.03/dijkstra.c.o
+
+.PHONY : Assignment-1.03/dijkstra.o
+
+# target to build an object file
+Assignment-1.03/dijkstra.c.o:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dijkstra.c.o
+.PHONY : Assignment-1.03/dijkstra.c.o
+
+Assignment-1.03/dijkstra.i: Assignment-1.03/dijkstra.c.i
+
+.PHONY : Assignment-1.03/dijkstra.i
+
+# target to preprocess a source file
+Assignment-1.03/dijkstra.c.i:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dijkstra.c.i
+.PHONY : Assignment-1.03/dijkstra.c.i
+
+Assignment-1.03/dijkstra.s: Assignment-1.03/dijkstra.c.s
+
+.PHONY : Assignment-1.03/dijkstra.s
+
+# target to generate assembly for a file
+Assignment-1.03/dijkstra.c.s:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dijkstra.c.s
+.PHONY : Assignment-1.03/dijkstra.c.s
+
 Assignment-1.03/dungeon.o: Assignment-1.03/dungeon.c.o
 
 .PHONY : Assignment-1.03/dungeon.o
@@ -150,32 +177,32 @@ Assignment-1.03/dungeon.c.s:
 	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dungeon.c.s
 .PHONY : Assignment-1.03/dungeon.c.s
 
-Assignment-1.03/heap.o: Assignment-1.03/heap.c.o
+Assignment-1.03/heap_a.o: Assignment-1.03/heap_a.c.o
 
-.PHONY : Assignment-1.03/heap.o
+.PHONY : Assignment-1.03/heap_a.o
 
 # target to build an object file
-Assignment-1.03/heap.c.o:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap.c.o
-.PHONY : Assignment-1.03/heap.c.o
+Assignment-1.03/heap_a.c.o:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap_a.c.o
+.PHONY : Assignment-1.03/heap_a.c.o
 
-Assignment-1.03/heap.i: Assignment-1.03/heap.c.i
+Assignment-1.03/heap_a.i: Assignment-1.03/heap_a.c.i
 
-.PHONY : Assignment-1.03/heap.i
+.PHONY : Assignment-1.03/heap_a.i
 
 # target to preprocess a source file
-Assignment-1.03/heap.c.i:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap.c.i
-.PHONY : Assignment-1.03/heap.c.i
+Assignment-1.03/heap_a.c.i:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap_a.c.i
+.PHONY : Assignment-1.03/heap_a.c.i
 
-Assignment-1.03/heap.s: Assignment-1.03/heap.c.s
+Assignment-1.03/heap_a.s: Assignment-1.03/heap_a.c.s
 
-.PHONY : Assignment-1.03/heap.s
+.PHONY : Assignment-1.03/heap_a.s
 
 # target to generate assembly for a file
-Assignment-1.03/heap.c.s:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap.c.s
-.PHONY : Assignment-1.03/heap.c.s
+Assignment-1.03/heap_a.c.s:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap_a.c.s
+.PHONY : Assignment-1.03/heap_a.c.s
 
 # Help Target
 help:
@@ -186,12 +213,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Assignment-1.03"
+	@echo "... Assignment-1.03/dijkstra.o"
+	@echo "... Assignment-1.03/dijkstra.i"
+	@echo "... Assignment-1.03/dijkstra.s"
 	@echo "... Assignment-1.03/dungeon.o"
 	@echo "... Assignment-1.03/dungeon.i"
 	@echo "... Assignment-1.03/dungeon.s"
-	@echo "... Assignment-1.03/heap.o"
-	@echo "... Assignment-1.03/heap.i"
-	@echo "... Assignment-1.03/heap.s"
+	@echo "... Assignment-1.03/heap_a.o"
+	@echo "... Assignment-1.03/heap_a.i"
+	@echo "... Assignment-1.03/heap_a.s"
 .PHONY : help
 
 

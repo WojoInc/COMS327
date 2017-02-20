@@ -62,16 +62,16 @@ void applyRoom(room_t *room, dungeon_t *dungeon){
 
 bool checkRoom(room_t *room, dungeon_t *dungeon){
 
-    if((room->x+room->width)>=d_WIDTH) return false;
-    if((room->y+room->height)>=d_HEIGHT) return false;
+    if((room->x+room->width)>=d_WIDTH) return FALSE;
+    if((room->y+room->height)>=d_HEIGHT) return FALSE;
     //check to make sure there is a 1 world unit gap around the area the room would cover
     for (int i = -1; i <= room->height; ++i) {
         //check each row verify world units are either ROCK
         for (int j = -1; j < room->width; ++j) {
-            if(dungeon->wunits[room->y+i][room->x+j].type!=ROCK) return false;
+            if(dungeon->wunits[room->y+i][room->x+j].type!=ROCK) return FALSE;
         }
     }
-    return true;
+    return TRUE;
 }
 
 void placeRooms(dungeon_t *dungeon){
@@ -89,7 +89,7 @@ void placeRooms(dungeon_t *dungeon){
 
         tries = 0;
 
-        while (checkRoom(&temp, dungeon) == false && tries < MAX_TRIES) {
+        while (checkRoom(&temp, dungeon) == FALSE && tries < MAX_TRIES) {
             temp.y = (rand() % d_HEIGHT) + 1;
             temp.x = (rand() % d_WIDTH) + 1;
             temp.height = (rand() % r_MIN_H) + 7;
