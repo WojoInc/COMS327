@@ -10,25 +10,29 @@
 #include <endian.h>
 #include <errno.h>
 #include "main.h"
+#include "dijkstra.h"
 
 
 int main(int argc, char *argv[]){
 
     int opt = 0;
     int long_index =0;
-    bool save=false,load=false,help=false;
+    bool save=FALSE,load=FALSE,help=FALSE,display=FALSE;
     while ((opt = getopt_long_only(argc, argv,"", long_options, &long_index )) != -1) {
         switch (opt) {
-            case 'o' : save = true;
+            case 'o' : save = TRUE;
                 break;
-            case 'i' : load = true;
+            case 'i' : load = TRUE;
                 break;
-            case 'h' : help = true;
+            case 'h' : help = TRUE;
+                break;
+            case 'd' : display = TRUE;
                 break;
             default:
-                help = true;
-                load = false;
-                save = false;
+                help = TRUE;
+                load = FALSE;
+                save = FALSE;
+                display = FALSE;
         }
     }
 
@@ -37,23 +41,30 @@ int main(int argc, char *argv[]){
      * are defined.
      */
 
-    dungeon_t dungeon;
+    dungeon_t *dungeon;
     if(save){
         dungeon = generateDungeon();
-        saveDungeon(&dungeon);
-        printDungeon(&dungeon);
-        free(dungeon.rooms);
+        saveDungeon(dungeon);
+        printDungeon(dungeon);
+        free(dungeon->rooms);
     }
     if(load){
-        loadDungeon(&dungeon);
-        printDungeon(&dungeon);
-        free(dungeon.rooms);
+        loadDungeon(dungeon);
+        printDungeon(dungeon);
+        free(dungeon->rooms);
     }
     if(help){
         printf("%s","Usage is: dungeon [options]"
                 "\n--save save dungeon to file at ./rlg327"
                 "\n--load load dungeon from file at ./rlg327"
                 "\n--help display this help message");
+    }
+    if(display){
+        dungeon = generateDungeon();
+        printDungeon(dungeon);
+        graph_t *graph = create_graph_dungeon(dungeon, &dungeon->wunits[50][50]);
+        dijkstra(graph);
+        print_graph(graph);
     }
 }
 

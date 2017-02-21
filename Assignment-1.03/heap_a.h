@@ -10,12 +10,11 @@
 
 typedef struct heap_node{
     int priority;
-    bool isEmpty;
     void *data;
 }heap_n;
 
 typedef struct heap{
-    size_t size;
+    size_t num_alloc;
     int next;
     heap_n *nodes;
 }heap_t;
@@ -24,7 +23,9 @@ heap_t *heap_init(size_t size);
 
 void swap_nodes(heap_t *heap, int node_a, int node_b);
 
-void add_with_priority(heap_t *heap, void *element, int priority);
+int add_with_priority(heap_t *heap, void *element, int priority);
+
+int get_size(heap_t *heap);
 
 int peek_min(heap_t *heap);
 

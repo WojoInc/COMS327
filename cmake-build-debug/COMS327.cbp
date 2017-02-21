@@ -102,6 +102,12 @@
 		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/heap_a.h">
 			<Option target="Assignment-1.03"/>
 		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/main.c">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/main.h">
+			<Option target="Assignment-1.03"/>
+		</Unit>
 		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/proj_incl.h">
 			<Option target="Assignment-1.03"/>
 		</Unit>

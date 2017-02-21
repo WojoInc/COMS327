@@ -1,0 +1,7 @@
+Code runs fine, there is however an issue with the way the load method works, it needs to be updated to properly draw the corridors between rooms.
+UPDATE: Above issue fixed, --save and --load now work fine. See changelog for details.
+
+Usage is: dungeon [options]
+--save save dungeon to file at ./rlg327
+--load load dungeon from file at ./rlg327
+--help display this help message

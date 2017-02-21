@@ -204,6 +204,33 @@ Assignment-1.03/heap_a.c.s:
 	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap_a.c.s
 .PHONY : Assignment-1.03/heap_a.c.s
 
+Assignment-1.03/main.o: Assignment-1.03/main.c.o
+
+.PHONY : Assignment-1.03/main.o
+
+# target to build an object file
+Assignment-1.03/main.c.o:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/main.c.o
+.PHONY : Assignment-1.03/main.c.o
+
+Assignment-1.03/main.i: Assignment-1.03/main.c.i
+
+.PHONY : Assignment-1.03/main.i
+
+# target to preprocess a source file
+Assignment-1.03/main.c.i:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/main.c.i
+.PHONY : Assignment-1.03/main.c.i
+
+Assignment-1.03/main.s: Assignment-1.03/main.c.s
+
+.PHONY : Assignment-1.03/main.s
+
+# target to generate assembly for a file
+Assignment-1.03/main.c.s:
+	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/main.c.s
+.PHONY : Assignment-1.03/main.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -222,6 +249,9 @@ help:
 	@echo "... Assignment-1.03/heap_a.o"
 	@echo "... Assignment-1.03/heap_a.i"
 	@echo "... Assignment-1.03/heap_a.s"
+	@echo "... Assignment-1.03/main.o"
+	@echo "... Assignment-1.03/main.i"
+	@echo "... Assignment-1.03/main.s"
 .PHONY : help
 
 

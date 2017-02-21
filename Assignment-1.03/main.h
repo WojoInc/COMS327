@@ -6,6 +6,7 @@
 
 #include <stdint.h>
 #include "dungeon.h"
+#include "proj_incl.h"
 #include <getopt.h>
 
 /*
@@ -28,6 +29,7 @@ static struct option long_options[] = {
         {"save", no_argument, 0, 'o'},
         {"load", no_argument, 0, 'i'},
         {"help", no_argument, 0, 'h'},
+        {"display", no_argument, 0, 'd'},
         {0,0,0,0}
 };
 

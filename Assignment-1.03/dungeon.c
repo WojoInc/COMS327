@@ -113,6 +113,8 @@ void setBoundaries(dungeon_t *dungeon){
     }
     //top and bottom
     for (int j = 0; j < d_WIDTH; ++j) {
+        dungeon->wunits[0][j].type = IMPASS;
+        dungeon->wunits[d_HEIGHT-1][j].type = IMPASS;
         dungeon->wunits[0][j].hardness = 255;
         dungeon->wunits[d_HEIGHT-1][j].hardness = 255;
     }
