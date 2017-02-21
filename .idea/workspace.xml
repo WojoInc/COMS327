@@ -16,26 +16,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ff9a797-14ae-4150-8d28-19b2bc0fe3f6" name="Default" comment="Fully implemented and tested dijkstra and heap. Incorporated these into the main program by adding a --display option, which will generate, but not save, a dungeon, and then display the path graph overlayed on the dungeon as well. Added Makefile, CHANGELOG, and README to project as well. Files are ready to be merged into master.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assignment-1.03/CHANGELOG" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assignment-1.03/Makefile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assignment-1.03/README" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assignment-1.03/queue.c" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Assignment-1.03/queue.h" afterPath="" />
+    <list default="true" id="5ff9a797-14ae-4150-8d28-19b2bc0fe3f6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/dijkstra.c" afterPath="$PROJECT_DIR$/Assignment-1.03/dijkstra.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/dijkstra.h" afterPath="$PROJECT_DIR$/Assignment-1.03/dijkstra.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/dungeon.c" afterPath="$PROJECT_DIR$/Assignment-1.03/dungeon.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/heap_a.c" afterPath="$PROJECT_DIR$/Assignment-1.03/heap_a.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/heap_a.h" afterPath="$PROJECT_DIR$/Assignment-1.03/heap_a.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/main.c" afterPath="$PROJECT_DIR$/Assignment-1.03/main.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/main.h" afterPath="$PROJECT_DIR$/Assignment-1.03/main.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/proj_incl.h" afterPath="$PROJECT_DIR$/Assignment-1.03/proj_incl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/COMS327.cbp" afterPath="$PROJECT_DIR$/cmake-build-debug/COMS327.cbp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assignment-1.03/CHANGELOG" afterPath="$PROJECT_DIR$/Assignment-1.03/CHANGELOG" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -521,7 +504,7 @@
       <workItem from="1485978018384" duration="12469000" />
       <workItem from="1486515609900" duration="24979000" />
       <workItem from="1487526386757" duration="23149000" />
-      <workItem from="1487627398827" duration="13739000" />
+      <workItem from="1487627398827" duration="13929000" />
     </task>
     <task id="LOCAL-00001" summary="Updated assignment 0 files.">
       <created>1484785138979</created>
@@ -593,11 +576,18 @@
       <option name="project" value="LOCAL" />
       <updated>1487572552703</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Fully implemented and tested dijkstra and heap. Incorporated these into the main program by adding a --display option, which will generate, but not save, a dungeon, and then display the path graph overlayed on the dungeon as well. Added Makefile, CHANGELOG, and README to project as well. Files are ready to be merged into master.">
+      <created>1487645449339</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1487645449339</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128133000" />
+    <option name="totallyTimeSpent" value="128323000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -648,7 +638,8 @@
     <MESSAGE value="Fixed issue with endianess, as I had not realized the functions used were byte-order, and not bit order. Also, reworked the dungeon struct to include a pointer representation, avoiding the &quot;invalid use of flexible member&quot; error, allowing it to be dynamically allocated when loading a dungeon, rather than needing the number of rooms to be defined at compile time.  Also fixed d_HEIGHT and d_WIDTH in dungeon.h as I had the values backwards from the last assignment, which caused dungeons to be written in the wrong order. Added seperate functions for opening file and parsing file path in order to clean up code and correctly report errors. Need to implement command line args still." />
     <MESSAGE value="Began project from scratch again, implemented priority queue using simple min heap. Need to iron out issues with multiple successive removals from the heap. Could make heap faster in the future by adding alpha balancing, but not needed for now." />
     <MESSAGE value="Dijkstra's fully implemented, reimplemented heap to use an array instead. Program has a segfault problem, seems like an array issue. Easy to sort out. Program does compile so committing progress for now. Also added proj_incl to project to keep track of commonly used headers." />
-    <option name="LAST_COMMIT_MESSAGE" value="Dijkstra's fully implemented, reimplemented heap to use an array instead. Program has a segfault problem, seems like an array issue. Easy to sort out. Program does compile so committing progress for now. Also added proj_incl to project to keep track of commonly used headers." />
+    <MESSAGE value="Fully implemented and tested dijkstra and heap. Incorporated these into the main program by adding a --display option, which will generate, but not save, a dungeon, and then display the path graph overlayed on the dungeon as well. Added Makefile, CHANGELOG, and README to project as well. Files are ready to be merged into master." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fully implemented and tested dijkstra and heap. Incorporated these into the main program by adding a --display option, which will generate, but not save, a dungeon, and then display the path graph overlayed on the dungeon as well. Added Makefile, CHANGELOG, and README to project as well. Files are ready to be merged into master." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
