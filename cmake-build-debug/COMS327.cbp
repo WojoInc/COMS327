@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="COMS327"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/wojoinc/COMS327/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/wojoinc/COMS327/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/wojoinc/COMS327/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Assignment-1.03">
+				<Option output="/home/wojoinc/COMS327/cmake-build-debug/Assignment-1.03" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/wojoinc/COMS327/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment-1.03"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Assignment-1.03/fast">
+				<Option output="/home/wojoinc/COMS327/cmake-build-debug/Assignment-1.03" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/wojoinc/COMS327/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment-1.03/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/wojoinc/COMS327/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/dijkstra.c">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/dijkstra.h">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/dungeon.c">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/dungeon.h">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/heap_a.c">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/heap_a.h">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/main.c">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/main.h">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/Assignment-1.03/proj_incl.h">
+			<Option target="Assignment-1.03"/>
+		</Unit>
+		<Unit filename="/home/wojoinc/COMS327/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
