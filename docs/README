@@ -1,0 +1,7 @@
+Code as of now places the PC in the center of first generated room. At the moment, code has an issue with event queue and will not display properly beyond first frame.
+
+Usage is: dungeon [options]
+--save save dungeon to file at ./rlg327
+--load load dungeon from file at ./rlg327
+--help display this help message
+--nummon allows for specification of number of monsters

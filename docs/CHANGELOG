@@ -1,3 +1,24 @@
+commit 96f1c1eb2267c03ab4e33ccdc019be6e813a1b95
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Tue Feb 21 19:33:32 2017 -0600
+
+    initial commit of Assignment 1.04
+
+commit 1fcb5e898b3660be78e085a38ff3712abdf49899
+Merge: 66c0627 78f1348
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 20 20:57:16 2017 -0600
+
+    Merge pull request #3 from WojoInc/Assignment-1.03
+    
+    Assignment 1.03
+
+commit 78f1348d41d1d50f76b291b468e42ec081424ded
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 20 20:54:05 2017 -0600
+
+    Updated CHANGELOG to include all recent changes across all branches.
+
 commit 24eb294534d1690a443dee3d4b722d93d357e1b2
 Author: Thomas John Wesolowski <wojoinc@iastate.edu>
 Date:   Mon Feb 20 20:50:49 2017 -0600

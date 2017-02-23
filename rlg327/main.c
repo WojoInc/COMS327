@@ -4,20 +4,21 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <sys/stat.h>
 #include <memory.h>
-#include <endian.h>
 #include <errno.h>
+#include <zconf.h>
 #include "main.h"
-#include "dijkstra.h"
+#include "player.h"
 
 
 int main(int argc, char *argv[]){
 
     int opt = 0;
     int long_index =0;
-    bool save=FALSE,load=FALSE,help=FALSE,display=FALSE;
+    int num_mon = 15;
+    int tick;
+    bool save=FALSE,load=FALSE,help=FALSE,display=FALSE,nummon=FALSE,PC_hit=FALSE;
     while ((opt = getopt_long_only(argc, argv,"", long_options, &long_index )) != -1) {
         switch (opt) {
             case 'o' : save = TRUE;
@@ -26,13 +27,15 @@ int main(int argc, char *argv[]){
                 break;
             case 'h' : help = TRUE;
                 break;
-            case 'd' : display = TRUE;
+            case 'm' : nummon = TRUE;
+                num_mon = atoi(optarg);
                 break;
             default:
                 help = TRUE;
                 load = FALSE;
                 save = FALSE;
                 display = FALSE;
+                num_mon = FALSE;
         }
     }
 
@@ -41,17 +44,58 @@ int main(int argc, char *argv[]){
      * are defined.
      */
 
+    //setup dungeon
     dungeon_t *dungeon;
-    if(save){
-        dungeon = generateDungeon();
-        saveDungeon(dungeon);
-        printDungeon(dungeon);
-        free(dungeon->rooms);
-    }
+    monster_t **monsters;
+    m_event **eventTemp;
+    p_event *pEvent;
+    heap_t *m_event_queue;
+    graph_t *graph, *graph_no_rock;
+    player_t *player;
     if(load){
         loadDungeon(dungeon);
+    }
+    else{
+        //if not loading a dungeon, generate a new one
+        dungeon = generateDungeon();
+        pEvent = player_init(dungeon, 10);
+        player = pEvent->player;
+        graph = create_graph_dungeon(dungeon, player->spawn_point);
+        graph_no_rock = create_graph_dungeon(dungeon, player->spawn_point);
+        spawn_player(player,graph,graph_no_rock);
+
+        eventTemp = (m_event **)malloc(sizeof(m_event)*num_mon);
+        m_event_queue = heap_init((size_t)15);
+        monsters = generate_monsters(num_mon, m_event_queue, graph, graph_no_rock);
+
         printDungeon(dungeon);
-        free(dungeon->rooms);
+        dijkstra(graph);
+        dijkstra_no_rock(graph_no_rock);
+
+        while(!PC_hit){
+            for(tick =0; tick<=200; tick++){
+                int i=0;
+                while(peek_min(m_event_queue)<=tick && i<num_mon){
+                    eventTemp[i] = (m_event *)remove_min(m_event_queue);
+                    m_update(eventTemp[i]);
+                    i++;
+                }
+                i--;
+                while (i >= 0&&tick>=50) {
+                    add_with_priority(m_event_queue,eventTemp[i],eventTemp[i]->interval);
+                    --i;
+
+                }
+                if(tick % pEvent->interval==0){
+                    p_update(pEvent);
+                }
+                printDungeon(dungeon);
+                usleep(3);
+            }
+        }
+    }
+    if(save){
+        saveDungeon(dungeon);
     }
     if(help){
         printf("%s","Usage is: dungeon [options]"
@@ -59,13 +103,25 @@ int main(int argc, char *argv[]){
                 "\n--load load dungeon from file at ./rlg327"
                 "\n--help display this help message");
     }
-    if(display){
-        dungeon = generateDungeon();
-        printDungeon(dungeon);
-        graph_t *graph = create_graph_dungeon(dungeon, &dungeon->wunits[50][50]);
-        dijkstra(graph);
-        print_graph(graph);
+   //TODO add cleanup function
+    free(dungeon->rooms);
+    free(monsters);
+    free(player);
+    free(m_event_queue);
+    free(graph);
+    free(graph_no_rock);
+
+}
+
+monster_t **generate_monsters(int num_mon, heap_t *heap, graph_t *dungeon, graph_t *dungeon_no_rock){
+    monster_t **monsters = (monster_t **)malloc(num_mon*sizeof(monster_t*));
+    m_event *event;
+    for (int i = 0; i < num_mon; ++i) {
+        event = spawn(m_rand_abilities(),(rand()%15)+5,dungeon,dungeon_no_rock);
+        monsters[i] = event->monster;
+        add_with_priority(heap,event,event->interval);
     }
+    return monsters;
 }
 
 void loadDungeon(dungeon_t *dungeon){

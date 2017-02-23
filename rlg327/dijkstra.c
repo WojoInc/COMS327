@@ -18,7 +18,10 @@
 void print_graph(graph_t *graph){
     for (int i = 0; i < d_HEIGHT; ++i) {
         for (int j = 0; j < d_WIDTH; ++j) {
-            if(graph->verticies[(i*d_WIDTH)+j].w_unit->type!=ROCK && graph->verticies[(i*d_WIDTH)+j].w_unit->type!=IMPASS){
+            if(&graph->verticies[(i*d_WIDTH)+j] == graph->source){
+                printf("@");
+            }
+            else if(graph->verticies[(i*d_WIDTH)+j].w_unit->type!=ROCK && graph->verticies[(i*d_WIDTH)+j].w_unit->type!=IMPASS){
                 printf("%d",graph->verticies[(i*d_WIDTH)+j].weight%10);
             }
             else{
@@ -47,6 +50,28 @@ void dijkstra(graph_t *graph){
         cursor = remove_min(heap);
         cursor->visited = TRUE;
         update_adjacent(heap,cursor);
+    }
+}
+
+void dijkstra_no_rock(graph_t *graph){
+    // array with same num_alloc as dungeon, to keep track of which
+    // cells have been considered visited
+    //begin with source
+
+    //setup source vertex.
+    graph->source->visited=TRUE;
+    //create heap
+    heap_t *heap = heap_init((size_t)graph->size);
+
+    //add source to heap
+    add_with_priority(heap, graph->source, graph->source->weight);
+    graph->source->queued = TRUE;
+
+    vertex_t *cursor;
+    while(get_size(heap)!=0){
+        cursor = remove_min(heap);
+        cursor->visited = TRUE;
+        update_adjacent_no_rock(heap,cursor);
     }
 }
 
@@ -90,6 +115,7 @@ graph_t *create_graph_dungeon(dungeon_t *dungeon, w_unit_t *source){
     return graph;
 }
 
+
 int w_unit_weight(int weight, w_unit_t *w_unit){
 
     if(w_unit->hardness==0) return weight + WEIGHT_1;
@@ -107,7 +133,7 @@ void update_adjacent(heap_t *heap, vertex_t *source){
  */
     int temp =0;
     for (int i = 0; i < 8; ++i) {
-        if(source->weight == -1) return; //if unit is a dungeon border
+        if(source->weight == -1) return;//if unit is a dungeon border
         temp = w_unit_weight(source->weight, source->neighbors[i]->w_unit);
         if((source->neighbors[i]->weight == 0 || temp<source->neighbors[i]->weight)
                                                  && !source->neighbors[i]->visited) {
@@ -117,8 +143,32 @@ void update_adjacent(heap_t *heap, vertex_t *source){
                 source->neighbors[i]->queued = TRUE;
                 add_with_priority(heap, source->neighbors[i], source->neighbors[i]->weight);
             }
-            else{
-                //TODO add code for changing the priority after fixing heap issues.
+        }
+    }
+
+}
+void update_adjacent_no_rock(heap_t *heap, vertex_t *source){
+
+/*
+ * Update each neighbor of the source vertex, if the new weight is less than the current
+ * weight, add it to the heap. Assumes heap initially contains only source.
+ */
+    int temp =0;
+    for (int i = 0; i < 8; ++i) {
+        if(source->weight == -1) return;//if unit is a dungeon border or rock in this case
+        if(source->neighbors[i]->w_unit->type==ROCK){
+            source->neighbors[i]->weight = -1;
+        }
+        else {
+            temp = w_unit_weight(source->weight, source->neighbors[i]->w_unit);
+            if ((source->neighbors[i]->weight == 0 || temp < source->neighbors[i]->weight)
+                && !source->neighbors[i]->visited) {
+                if (!source->neighbors[i]->queued) {
+                    source->neighbors[i]->weight = temp;
+                    source->neighbors[i]->prev = source;
+                    source->neighbors[i]->queued = TRUE;
+                    add_with_priority(heap, source->neighbors[i], source->neighbors[i]->weight);
+                }
             }
         }
     }
