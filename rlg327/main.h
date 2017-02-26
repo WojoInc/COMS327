@@ -6,6 +6,9 @@
 
 #include <stdint.h>
 #include "dungeon.h"
+#include "proj_incl.h"
+#include "dijkstra.h"
+#include "monster.h"
 #include <getopt.h>
 
 /*
@@ -28,9 +31,12 @@ static struct option long_options[] = {
         {"save", no_argument, 0, 'o'},
         {"load", no_argument, 0, 'i'},
         {"help", no_argument, 0, 'h'},
+        {"nummon", required_argument,0,'m'},
         {0,0,0,0}
 };
 
+
+monster_t **generate_monsters(int nummon, heap_t *heap, graph_t *dungeon, graph_t *dungeon_no_rock);
 /**
  * Saves @dungeon to a file path created at %HOME%/.rlg327/dungeon
  * @param dungeon the dungeon to be saved

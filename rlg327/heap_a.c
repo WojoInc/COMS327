@@ -30,7 +30,7 @@ heap_t *heap_init(size_t size){
 }
 
 int add_with_priority(heap_t *heap, void *element, int priority){
-    if(get_size(heap)==heap->num_alloc-1){
+    if(get_size(heap)==heap->num_alloc){
         printf("%s\n","Attempted to add element to full heap");
         return -1;
     }
@@ -51,10 +51,10 @@ void swap_nodes(heap_t *heap, int node_a, int node_b) {
     //store values in temp variables
     void *data = heap->nodes[node_a].data;
     int priority = heap->nodes[node_a].priority;
-    //move node b contents to a
+    //move_monster node b contents to a
     heap->nodes[node_a].data = heap->nodes[node_b].data;
     heap->nodes[node_a].priority = heap->nodes[node_b].priority;
-    //move temp variables to b
+    //move_monster temp variables to b
     heap->nodes[node_b].data = data;
     heap->nodes[node_b].priority = priority;
 }
@@ -70,6 +70,7 @@ int peek_min(heap_t *heap){
 void * peek_min_data(heap_t *heap){
     return &heap->nodes[0].data;
 }
+
 
 void * remove_min(heap_t *heap){
     if(get_size(heap)==0){

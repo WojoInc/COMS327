@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include "proj_incl.h"
 
 #define d_HEIGHT 105
 #define d_WIDTH 160
@@ -17,11 +18,6 @@
 #define NUM_ROOMS 15
 #define MAX_TRIES 2000
 
-
-typedef int bool;
-#define true 1
-#define false 0
-
 typedef enum wunit_type{
     IMPASS = 255,
     ROCK = 0,
@@ -31,7 +27,10 @@ typedef enum wunit_type{
 
 typedef struct w_unit{
     wunit_type_t type;
+    int x;
+    int y;
     int hardness;
+    unsigned char contents;
 }w_unit_t;
 
 typedef struct room{
@@ -52,7 +51,7 @@ typedef struct dungeon{
  *
  * @return value of new dungeon
  */
-dungeon_t generateDungeon();
+dungeon_t *generateDungeon();
 
 /**
  * Generates a new dungeon with number of rooms given by @numRooms.
@@ -70,7 +69,7 @@ dungeon_t generateDungeon_d(int numRooms);
  *
  * @param dungeon dungeon to randomize
  */
-void randHardness(dungeon_t *dungeon);
+void apply_properties(dungeon_t *dungeon);
 
 /**
  * Treats the @room as a layer, then flattens this layer onto the dungeon layer. This is done by setting the value
@@ -102,6 +101,7 @@ void placeRooms(dungeon_t *dungeon);
 void setBoundaries(dungeon_t *dungeon);
 
 /**
+ * *************DEPRECATED***************
  * Prints the dungeon via stdOut to the console
  * @param dungeon the dungeon to be displayed
  */
