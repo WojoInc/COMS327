@@ -17,6 +17,7 @@ typedef struct vertex{
     int weight;
     bool visited;
     bool queued;
+    int num_neighbrs;
     w_unit_t *w_unit;
     struct vertex *prev;
     struct vertex **neighbors;

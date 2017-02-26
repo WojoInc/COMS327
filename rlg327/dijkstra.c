@@ -31,11 +31,25 @@ void print_graph(graph_t *graph){
         printf("\n");
     }
 }
+
+void reset_verticies(graph_t *graph){
+    for (int i = 0; i < d_HEIGHT; ++i) {
+        for (int j = 0; j < d_WIDTH; ++j) {
+            graph->verticies[i*d_WIDTH +j].visited = FALSE;
+            graph->verticies[i*d_WIDTH +j].queued = FALSE;
+            graph->verticies[i*d_WIDTH +j].prev = NULL;
+            graph->verticies[i*d_WIDTH +j].weight = 0;
+        }
+    }
+}
+
 void dijkstra(graph_t *graph){
     // array with same num_alloc as dungeon, to keep track of which
     // cells have been considered visited
     //begin with source
 
+    //clean visited, queued, and prev attributes of verticies.
+    reset_verticies(graph);
     //setup source vertex.
     graph->source->visited=TRUE;
     //create heap
@@ -51,6 +65,8 @@ void dijkstra(graph_t *graph){
         cursor->visited = TRUE;
         update_adjacent(heap,cursor);
     }
+    free(heap);
+    //print_graph(graph);
 }
 
 void dijkstra_no_rock(graph_t *graph){
@@ -58,6 +74,8 @@ void dijkstra_no_rock(graph_t *graph){
     // cells have been considered visited
     //begin with source
 
+    //clean verticies
+    reset_verticies(graph);
     //setup source vertex.
     graph->source->visited=TRUE;
     //create heap
@@ -68,11 +86,14 @@ void dijkstra_no_rock(graph_t *graph){
     graph->source->queued = TRUE;
 
     vertex_t *cursor;
-    while(get_size(heap)!=0){
+    while(get_size(heap)>0){
         cursor = remove_min(heap);
         cursor->visited = TRUE;
         update_adjacent_no_rock(heap,cursor);
+       // print_graph(graph);
     }
+    //print_graph(graph);
+    free(heap);
 }
 
 graph_t *create_graph_dungeon(dungeon_t *dungeon, w_unit_t *source){
@@ -156,10 +177,8 @@ void update_adjacent_no_rock(heap_t *heap, vertex_t *source){
     int temp =0;
     for (int i = 0; i < 8; ++i) {
         if(source->weight == -1) return;//if unit is a dungeon border or rock in this case
-        if(source->neighbors[i]->w_unit->type==ROCK){
-            source->neighbors[i]->weight = -1;
-        }
-        else {
+
+        if(source->neighbors[i]->w_unit->type==rm_FLOOR||source->neighbors[i]->w_unit->type==CORRIDOR){
             temp = w_unit_weight(source->weight, source->neighbors[i]->w_unit);
             if ((source->neighbors[i]->weight == 0 || temp < source->neighbors[i]->weight)
                 && !source->neighbors[i]->visited) {
@@ -170,6 +189,11 @@ void update_adjacent_no_rock(heap_t *heap, vertex_t *source){
                     add_with_priority(heap, source->neighbors[i], source->neighbors[i]->weight);
                 }
             }
+
+        }
+        else {
+            source->neighbors[i]->weight = -1;
+            source->neighbors[i]->prev = source;
         }
     }
 

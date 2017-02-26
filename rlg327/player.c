@@ -4,7 +4,7 @@
 
 #include "player.h"
 
-p_event *player_init(dungeon_t *dungeon, int speed){
+p_event *player_init(dungeon_t *dungeon, unsigned int speed){
     int y=1,x=1;
     //player spawn point is the middle of the first generated room,
     // which may be anywhere in dungeon
@@ -17,6 +17,7 @@ p_event *player_init(dungeon_t *dungeon, int speed){
     p_event *pEvent = malloc(sizeof(p_event));
     pEvent->player = player;
     pEvent->interval = 1000/speed;
+    pEvent->next_exec =pEvent->interval;
     return pEvent;
 }
 void spawn_player(player_t *player,graph_t *dungeon, graph_t *dungeon_no_rock){
@@ -36,14 +37,15 @@ void p_flatten(player_t *player){
 void move_player(player_t *player){
     int moveTo = 0;
     moveTo = rand()%8;
-    if(player->location->neighbors[moveTo]==NULL || player->location->neighbors[moveTo]->w_unit->type!=IMPASS) {
+    if(player->location->neighbors[moveTo]->w_unit->type!=IMPASS||player->location->neighbors[moveTo]==NULL) {
         moveTo = rand()%8;
     }
     player->location = player->location->neighbors[moveTo];
     player->dungeon->source = player->location;
-    player->dungeon_no_rock->source = player->location;
+    player->dungeon_no_rock->source = &player->dungeon_no_rock->verticies[player->location->w_unit->y*d_WIDTH +
+    player->location->w_unit->x];
     dijkstra(player->dungeon);
-    dijkstra(player->dungeon_no_rock);
+    dijkstra_no_rock(player->dungeon_no_rock);
 }
 void p_update(p_event *pEvent){
     vertex_t *last_pos = pEvent->player->location;

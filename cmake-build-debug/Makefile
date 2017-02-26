@@ -111,125 +111,179 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Assignment-1.03
+# Target rules for targets named rlg327
 
 # Build rule for target.
-Assignment-1.03: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Assignment-1.03
-.PHONY : Assignment-1.03
+rlg327: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rlg327
+.PHONY : rlg327
 
 # fast build rule for target.
-Assignment-1.03/fast:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/build
-.PHONY : Assignment-1.03/fast
+rlg327/fast:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/build
+.PHONY : rlg327/fast
 
-Assignment-1.03/dijkstra.o: Assignment-1.03/dijkstra.c.o
+rlg327/dijkstra.o: rlg327/dijkstra.c.o
 
-.PHONY : Assignment-1.03/dijkstra.o
-
-# target to build an object file
-Assignment-1.03/dijkstra.c.o:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dijkstra.c.o
-.PHONY : Assignment-1.03/dijkstra.c.o
-
-Assignment-1.03/dijkstra.i: Assignment-1.03/dijkstra.c.i
-
-.PHONY : Assignment-1.03/dijkstra.i
-
-# target to preprocess a source file
-Assignment-1.03/dijkstra.c.i:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dijkstra.c.i
-.PHONY : Assignment-1.03/dijkstra.c.i
-
-Assignment-1.03/dijkstra.s: Assignment-1.03/dijkstra.c.s
-
-.PHONY : Assignment-1.03/dijkstra.s
-
-# target to generate assembly for a file
-Assignment-1.03/dijkstra.c.s:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dijkstra.c.s
-.PHONY : Assignment-1.03/dijkstra.c.s
-
-Assignment-1.03/dungeon.o: Assignment-1.03/dungeon.c.o
-
-.PHONY : Assignment-1.03/dungeon.o
+.PHONY : rlg327/dijkstra.o
 
 # target to build an object file
-Assignment-1.03/dungeon.c.o:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dungeon.c.o
-.PHONY : Assignment-1.03/dungeon.c.o
+rlg327/dijkstra.c.o:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/dijkstra.c.o
+.PHONY : rlg327/dijkstra.c.o
 
-Assignment-1.03/dungeon.i: Assignment-1.03/dungeon.c.i
+rlg327/dijkstra.i: rlg327/dijkstra.c.i
 
-.PHONY : Assignment-1.03/dungeon.i
+.PHONY : rlg327/dijkstra.i
 
 # target to preprocess a source file
-Assignment-1.03/dungeon.c.i:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dungeon.c.i
-.PHONY : Assignment-1.03/dungeon.c.i
+rlg327/dijkstra.c.i:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/dijkstra.c.i
+.PHONY : rlg327/dijkstra.c.i
 
-Assignment-1.03/dungeon.s: Assignment-1.03/dungeon.c.s
+rlg327/dijkstra.s: rlg327/dijkstra.c.s
 
-.PHONY : Assignment-1.03/dungeon.s
+.PHONY : rlg327/dijkstra.s
 
 # target to generate assembly for a file
-Assignment-1.03/dungeon.c.s:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/dungeon.c.s
-.PHONY : Assignment-1.03/dungeon.c.s
+rlg327/dijkstra.c.s:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/dijkstra.c.s
+.PHONY : rlg327/dijkstra.c.s
 
-Assignment-1.03/heap_a.o: Assignment-1.03/heap_a.c.o
+rlg327/dungeon.o: rlg327/dungeon.c.o
 
-.PHONY : Assignment-1.03/heap_a.o
+.PHONY : rlg327/dungeon.o
 
 # target to build an object file
-Assignment-1.03/heap_a.c.o:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap_a.c.o
-.PHONY : Assignment-1.03/heap_a.c.o
+rlg327/dungeon.c.o:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/dungeon.c.o
+.PHONY : rlg327/dungeon.c.o
 
-Assignment-1.03/heap_a.i: Assignment-1.03/heap_a.c.i
+rlg327/dungeon.i: rlg327/dungeon.c.i
 
-.PHONY : Assignment-1.03/heap_a.i
+.PHONY : rlg327/dungeon.i
 
 # target to preprocess a source file
-Assignment-1.03/heap_a.c.i:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap_a.c.i
-.PHONY : Assignment-1.03/heap_a.c.i
+rlg327/dungeon.c.i:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/dungeon.c.i
+.PHONY : rlg327/dungeon.c.i
 
-Assignment-1.03/heap_a.s: Assignment-1.03/heap_a.c.s
+rlg327/dungeon.s: rlg327/dungeon.c.s
 
-.PHONY : Assignment-1.03/heap_a.s
+.PHONY : rlg327/dungeon.s
 
 # target to generate assembly for a file
-Assignment-1.03/heap_a.c.s:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/heap_a.c.s
-.PHONY : Assignment-1.03/heap_a.c.s
+rlg327/dungeon.c.s:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/dungeon.c.s
+.PHONY : rlg327/dungeon.c.s
 
-Assignment-1.03/main.o: Assignment-1.03/main.c.o
+rlg327/heap_a.o: rlg327/heap_a.c.o
 
-.PHONY : Assignment-1.03/main.o
+.PHONY : rlg327/heap_a.o
 
 # target to build an object file
-Assignment-1.03/main.c.o:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/main.c.o
-.PHONY : Assignment-1.03/main.c.o
+rlg327/heap_a.c.o:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/heap_a.c.o
+.PHONY : rlg327/heap_a.c.o
 
-Assignment-1.03/main.i: Assignment-1.03/main.c.i
+rlg327/heap_a.i: rlg327/heap_a.c.i
 
-.PHONY : Assignment-1.03/main.i
+.PHONY : rlg327/heap_a.i
 
 # target to preprocess a source file
-Assignment-1.03/main.c.i:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/main.c.i
-.PHONY : Assignment-1.03/main.c.i
+rlg327/heap_a.c.i:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/heap_a.c.i
+.PHONY : rlg327/heap_a.c.i
 
-Assignment-1.03/main.s: Assignment-1.03/main.c.s
+rlg327/heap_a.s: rlg327/heap_a.c.s
 
-.PHONY : Assignment-1.03/main.s
+.PHONY : rlg327/heap_a.s
 
 # target to generate assembly for a file
-Assignment-1.03/main.c.s:
-	$(MAKE) -f CMakeFiles/Assignment-1.03.dir/build.make CMakeFiles/Assignment-1.03.dir/Assignment-1.03/main.c.s
-.PHONY : Assignment-1.03/main.c.s
+rlg327/heap_a.c.s:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/heap_a.c.s
+.PHONY : rlg327/heap_a.c.s
+
+rlg327/main.o: rlg327/main.c.o
+
+.PHONY : rlg327/main.o
+
+# target to build an object file
+rlg327/main.c.o:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/main.c.o
+.PHONY : rlg327/main.c.o
+
+rlg327/main.i: rlg327/main.c.i
+
+.PHONY : rlg327/main.i
+
+# target to preprocess a source file
+rlg327/main.c.i:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/main.c.i
+.PHONY : rlg327/main.c.i
+
+rlg327/main.s: rlg327/main.c.s
+
+.PHONY : rlg327/main.s
+
+# target to generate assembly for a file
+rlg327/main.c.s:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/main.c.s
+.PHONY : rlg327/main.c.s
+
+rlg327/monster.o: rlg327/monster.c.o
+
+.PHONY : rlg327/monster.o
+
+# target to build an object file
+rlg327/monster.c.o:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/monster.c.o
+.PHONY : rlg327/monster.c.o
+
+rlg327/monster.i: rlg327/monster.c.i
+
+.PHONY : rlg327/monster.i
+
+# target to preprocess a source file
+rlg327/monster.c.i:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/monster.c.i
+.PHONY : rlg327/monster.c.i
+
+rlg327/monster.s: rlg327/monster.c.s
+
+.PHONY : rlg327/monster.s
+
+# target to generate assembly for a file
+rlg327/monster.c.s:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/monster.c.s
+.PHONY : rlg327/monster.c.s
+
+rlg327/player.o: rlg327/player.c.o
+
+.PHONY : rlg327/player.o
+
+# target to build an object file
+rlg327/player.c.o:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/player.c.o
+.PHONY : rlg327/player.c.o
+
+rlg327/player.i: rlg327/player.c.i
+
+.PHONY : rlg327/player.i
+
+# target to preprocess a source file
+rlg327/player.c.i:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/player.c.i
+.PHONY : rlg327/player.c.i
+
+rlg327/player.s: rlg327/player.c.s
+
+.PHONY : rlg327/player.s
+
+# target to generate assembly for a file
+rlg327/player.c.s:
+	$(MAKE) -f CMakeFiles/rlg327.dir/build.make CMakeFiles/rlg327.dir/rlg327/player.c.s
+.PHONY : rlg327/player.c.s
 
 # Help Target
 help:
@@ -239,19 +293,25 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Assignment-1.03"
-	@echo "... Assignment-1.03/dijkstra.o"
-	@echo "... Assignment-1.03/dijkstra.i"
-	@echo "... Assignment-1.03/dijkstra.s"
-	@echo "... Assignment-1.03/dungeon.o"
-	@echo "... Assignment-1.03/dungeon.i"
-	@echo "... Assignment-1.03/dungeon.s"
-	@echo "... Assignment-1.03/heap_a.o"
-	@echo "... Assignment-1.03/heap_a.i"
-	@echo "... Assignment-1.03/heap_a.s"
-	@echo "... Assignment-1.03/main.o"
-	@echo "... Assignment-1.03/main.i"
-	@echo "... Assignment-1.03/main.s"
+	@echo "... rlg327"
+	@echo "... rlg327/dijkstra.o"
+	@echo "... rlg327/dijkstra.i"
+	@echo "... rlg327/dijkstra.s"
+	@echo "... rlg327/dungeon.o"
+	@echo "... rlg327/dungeon.i"
+	@echo "... rlg327/dungeon.s"
+	@echo "... rlg327/heap_a.o"
+	@echo "... rlg327/heap_a.i"
+	@echo "... rlg327/heap_a.s"
+	@echo "... rlg327/main.o"
+	@echo "... rlg327/main.i"
+	@echo "... rlg327/main.s"
+	@echo "... rlg327/monster.o"
+	@echo "... rlg327/monster.i"
+	@echo "... rlg327/monster.s"
+	@echo "... rlg327/player.o"
+	@echo "... rlg327/player.i"
+	@echo "... rlg327/player.s"
 .PHONY : help
 
 

@@ -71,6 +71,7 @@ void * peek_min_data(heap_t *heap){
     return &heap->nodes[0].data;
 }
 
+
 void * remove_min(heap_t *heap){
     if(get_size(heap)==0){
         printf("%s\n","Attempted to remove element from empty heap");

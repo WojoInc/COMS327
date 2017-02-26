@@ -5,7 +5,7 @@
 #include "monster.h"
 
 
-m_event *spawn(unsigned char abilities, int speed, graph_t *dungeon, graph_t *dungeon_no_rock){
+m_event *spawn(unsigned char abilities, unsigned int speed, graph_t *dungeon, graph_t *dungeon_no_rock){
     monster_t *monster = (monster_t*)malloc(sizeof(monster_t));
     monster->abilities = abilities;
     monster->dungeon = dungeon;
@@ -32,6 +32,7 @@ m_event *spawn(unsigned char abilities, int speed, graph_t *dungeon, graph_t *du
     m_event *mEvent = malloc(sizeof(m_event));
     mEvent->monster = monster;
     mEvent->interval = SPD_CONST/speed;
+    mEvent->next_exec = SPD_CONST/speed;
     return mEvent;
 }
 void detect_PC_LOS(monster_t *monster){
@@ -61,7 +62,7 @@ void tunnel(monster_t *monster, vertex_t *moveTo){
         moveTo->w_unit->type = CORRIDOR;
         monster->location = moveTo;
         //update non-tunneling and tunneling graph
-        dijkstra(monster->dungeon_no_rock);
+        dijkstra_no_rock(monster->dungeon_no_rock);
         dijkstra(monster->dungeon);
     }
 }
@@ -169,7 +170,7 @@ void m_update(m_event *mEvent){
     vertex_t *last_pos = mEvent->monster->location;
 
     if(last_pos->w_unit == mEvent->monster->dungeon->source->w_unit ||
-                           mEvent->monster->dungeon_no_rock->source->w_unit){
+            last_pos->w_unit == mEvent->monster->dungeon_no_rock->source->w_unit){
         printf("\nGAME OVER\n");
         exit(0);
     }

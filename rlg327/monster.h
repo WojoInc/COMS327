@@ -19,7 +19,6 @@
 
 typedef struct monster{
     unsigned char abilities;
-    int sight;
     graph_t *dungeon;
     graph_t *dungeon_no_rock;
     vertex_t * location;
@@ -27,11 +26,12 @@ typedef struct monster{
 }monster_t;
 
 typedef struct monster_event{
-    int interval;
+    unsigned int interval;
+    unsigned int next_exec;
     monster_t *monster;
 }m_event;
 
-m_event *spawn(unsigned char abilities, int speed, graph_t *dungeon, graph_t *dungeon_no_rock);
+m_event *spawn(unsigned char abilities, unsigned int speed, graph_t *dungeon, graph_t *dungeon_no_rock);
 
 void detect_PC(monster_t *monster);
 void detect_PC_LOS(monster_t *monster);

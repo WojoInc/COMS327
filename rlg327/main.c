@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
     int opt = 0;
     int long_index =0;
     int num_mon = 15;
-    int tick;
+    unsigned int tick;
     bool save=FALSE,load=FALSE,help=FALSE,display=FALSE,nummon=FALSE,PC_hit=FALSE;
     while ((opt = getopt_long_only(argc, argv,"", long_options, &long_index )) != -1) {
         switch (opt) {
@@ -47,11 +47,10 @@ int main(int argc, char *argv[]){
     //setup dungeon
     dungeon_t *dungeon;
     monster_t **monsters;
-    m_event **eventTemp;
+    m_event *eventTemp;
     p_event *pEvent;
     heap_t *m_event_queue;
     graph_t *graph, *graph_no_rock;
-    player_t *player;
     if(load){
         loadDungeon(dungeon);
     }
@@ -59,12 +58,12 @@ int main(int argc, char *argv[]){
         //if not loading a dungeon, generate a new one
         dungeon = generateDungeon();
         pEvent = player_init(dungeon, 10);
-        player = pEvent->player;
-        graph = create_graph_dungeon(dungeon, player->spawn_point);
-        graph_no_rock = create_graph_dungeon(dungeon, player->spawn_point);
-        spawn_player(player,graph,graph_no_rock);
 
-        eventTemp = (m_event **)malloc(sizeof(m_event)*num_mon);
+        graph = create_graph_dungeon(dungeon, pEvent->player->spawn_point);
+        graph_no_rock = create_graph_dungeon(dungeon, pEvent->player->spawn_point);
+        spawn_player(pEvent->player,graph,graph_no_rock);
+
+        eventTemp = (m_event *)malloc(sizeof(m_event));
         m_event_queue = heap_init((size_t)15);
         monsters = generate_monsters(num_mon, m_event_queue, graph, graph_no_rock);
 
@@ -72,26 +71,24 @@ int main(int argc, char *argv[]){
         dijkstra(graph);
         dijkstra_no_rock(graph_no_rock);
 
-        while(!PC_hit){
-            for(tick =0; tick<=200; tick++){
-                int i=0;
-                while(peek_min(m_event_queue)<=tick && i<num_mon){
-                    eventTemp[i] = (m_event *)remove_min(m_event_queue);
-                    m_update(eventTemp[i]);
-                    i++;
-                }
-                i--;
-                while (i >= 0&&tick>=50) {
-                    add_with_priority(m_event_queue,eventTemp[i],eventTemp[i]->interval);
-                    --i;
-
-                }
-                if(tick % pEvent->interval==0){
-                    p_update(pEvent);
+        while(!PC_hit) {
+            /*
+             * For now player just moves every 100 ticks. If the player has moved,
+             * move the monsters whose next_exec is less than the current tick.
+             */
+            if (pEvent->next_exec <=tick) {
+                p_update(pEvent);
+                pEvent->next_exec+=pEvent->interval;
+                while (peek_min(m_event_queue) <= tick) {
+                    eventTemp = (m_event *) remove_min(m_event_queue);
+                    m_update(eventTemp);
+                    eventTemp->next_exec += eventTemp->interval;
+                    add_with_priority(m_event_queue, eventTemp, eventTemp->next_exec);
                 }
                 printDungeon(dungeon);
-                usleep(3);
             }
+            usleep(3);
+            tick++;
         }
     }
     if(save){
@@ -106,7 +103,6 @@ int main(int argc, char *argv[]){
    //TODO add cleanup function
     free(dungeon->rooms);
     free(monsters);
-    free(player);
     free(m_event_queue);
     free(graph);
     free(graph_no_rock);

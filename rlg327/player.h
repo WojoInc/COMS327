@@ -18,15 +18,16 @@ typedef struct player_char{
 }player_t;
 
 typedef struct player_event{
-    int interval;
+    unsigned int interval;
+    unsigned int next_exec;
     player_t *player;
 }p_event;
 
 void p_update(p_event *pEvent);
 void p_unflatten(player_t *player, vertex_t *fromPosition);
 void p_flatten(player_t *player);
-void move(player_t *player);
+void move_player(player_t *player);
 void spawn_player(player_t *player,graph_t *dungeon, graph_t *dungeon_no_rock);
-p_event *player_init(dungeon_t *dungeon, int speed);
+p_event *player_init(dungeon_t *dungeon, unsigned int speed);
 
 #endif //COMS327_PLAYER_H
