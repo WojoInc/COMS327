@@ -27,11 +27,12 @@ void spawn_player(player_t *player,graph_t *dungeon, graph_t *dungeon_no_rock){
     p_flatten(player);
 }
 void p_unflatten(player_t *player, vertex_t *fromPosition){
-    fromPosition->w_unit->contents ^= player->abilities;
+    fromPosition->w_unit->type = player->location_type;
 }
 
 void p_flatten(player_t *player){
-    player->location->w_unit->contents |= player->abilities;
+    player->location_type = player->location->w_unit->type;
+    player->location->w_unit->type = PLAYER;
 }
 
 void move_player(player_t *player){

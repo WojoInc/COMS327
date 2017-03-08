@@ -4,7 +4,8 @@
 
 #ifndef COMS327_STD_INCL_H
 #define COMS327_STD_INCL_H
-typedef enum {FALSE,TRUE} bool;
+
 #include<stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 #endif //COMS327_STD_INCL_H

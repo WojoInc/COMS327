@@ -4,14 +4,17 @@
 
 #include "monster.h"
 
+const char mon_symbol[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
-m_event *spawn(unsigned char abilities, unsigned int speed, graph_t *dungeon, graph_t *dungeon_no_rock){
+m_event *spawn(int type, int speed, graph_t *dungeon, graph_t *dungeon_no_rock){
     monster_t *monster = (monster_t*)malloc(sizeof(monster_t));
-    monster->abilities = abilities;
+    monster->type = type;
     monster->dungeon = dungeon;
     monster->dungeon_no_rock = dungeon_no_rock;
 
-    if((monster->abilities & TUNNELING)==TUNNELING){
+    monster->symbol=mon_symbol[monster->type];
+
+    if((monster->type & TUNNELING)==TUNNELING){
         int posx = (rand()%158)+1;
         int posy = (rand()%103)+1;
 
@@ -47,7 +50,7 @@ void detect_PC_LOS(monster_t *monster){
 }
 void detect_PC(monster_t *monster){
     //if monster is telepathic, get pc location from graph, else, by LOS
-    if((monster->abilities & TELEPATHY)==TELEPATHY){
+    if((monster->type & TELEPATHY)==TELEPATHY){
         monster->PC_location = monster->dungeon->source;
     } else{
         detect_PC_LOS(monster);
@@ -105,7 +108,7 @@ void move_unintel(monster_t *monster){
         vertex_t * moveTo = &monster->dungeon->verticies[(mony+y)*d_WIDTH + (monx+x)];
         if(moveTo->w_unit->type==ROCK){
             //if monster can tunnel, tunnel, else monster is stuck
-            if((monster->abilities & TUNNELING)==TUNNELING) {
+            if((monster->type & TUNNELING)==TUNNELING) {
                 tunnel(monster, moveTo);
             }
         }
@@ -117,7 +120,7 @@ void move_unintel(monster_t *monster){
 }
 
 void move_monster(monster_t *monster){
-    if((monster->abilities & INTELLIGENCE)==INTELLIGENCE){
+    if((monster->type & INTELLIGENCE)==INTELLIGENCE){
         move_intel(monster);
     }
     else{ //unintelligent, move in straight line to PC. if PC not yet seen or remembered, don't move_monster
@@ -135,7 +138,7 @@ void move_erratic(monster_t *monster) {
         }
         if (monster->location->neighbors[num]->w_unit->type == ROCK) {
             //if neighbor is a rock, check if tunneling, else choose a different neighbor
-            if ((monster->abilities & TUNNELING)==TUNNELING){
+            if ((monster->type & TUNNELING)==TUNNELING){
                 tunnel(monster,monster->location->neighbors[num]);
                 moved = TRUE;
             }
@@ -151,20 +154,16 @@ void move_erratic(monster_t *monster) {
 }
 
 void m_unflatten(monster_t *monster, vertex_t *fromPosition){
-    fromPosition->w_unit->contents ^= monster->abilities;
+    fromPosition->w_unit->type = monster->location_type;
 }
 
 void m_flatten(monster_t *monster){
-    monster->location->w_unit->contents |= monster->abilities;
+    monster->location_type = monster->location->w_unit->type;
+    monster->location->w_unit->type = monster->symbol;
 }
 
-unsigned char m_rand_abilities(){
-    unsigned char a,b,c,d;
-    a = (unsigned char)rand()%2;
-    b = (unsigned char)rand()%2;
-    c = (unsigned char)rand()%2;
-    d = (unsigned char)rand()%2;
-    return d<<3 | c<<2 | b<<1 | a;
+int m_rand_abilities(){
+    return rand()%16;
 }
 void m_update(m_event *mEvent){
     vertex_t *last_pos = mEvent->monster->location;
@@ -182,7 +181,7 @@ void m_update(m_event *mEvent){
      * even = move according to abilities
      * odd = move_monster to random neighbor cell
      */
-    if((mEvent->monster->abilities & ERRATIC)==ERRATIC){
+    if((mEvent->monster->type & ERRATIC)==ERRATIC){
         if(rand()%2==0){
             detect_PC(mEvent->monster);
             move_monster(mEvent->monster);

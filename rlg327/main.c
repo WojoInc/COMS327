@@ -10,7 +10,16 @@
 #include <zconf.h>
 #include "main.h"
 #include "player.h"
+#include "control_IO.h"
 
+//setup dungeon
+dungeon_t *dungeon;
+monster_t **monsters;
+m_event *eventTemp;
+p_event *pEvent;
+heap_t *m_event_queue;
+graph_t *graph, *graph_no_rock;
+UI_t *ui;
 
 int main(int argc, char *argv[]){
 
@@ -39,58 +48,31 @@ int main(int argc, char *argv[]){
         }
     }
 
-    /*
-     * Process functions based on command line args. For now, only save, load, and help
-     * are defined.
-     */
-
-    //setup dungeon
-    dungeon_t *dungeon;
-    monster_t **monsters;
-    m_event *eventTemp;
-    p_event *pEvent;
-    heap_t *m_event_queue;
-    graph_t *graph, *graph_no_rock;
     if(load){
         loadDungeon(dungeon);
     }
-    else{
+    else {
         //if not loading a dungeon, generate a new one
         dungeon = generateDungeon();
         pEvent = player_init(dungeon, 10);
 
         graph = create_graph_dungeon(dungeon, pEvent->player->spawn_point);
         graph_no_rock = create_graph_dungeon(dungeon, pEvent->player->spawn_point);
-        spawn_player(pEvent->player,graph,graph_no_rock);
+        spawn_player(pEvent->player, graph, graph_no_rock);
 
-        eventTemp = (m_event *)malloc(sizeof(m_event));
-        m_event_queue = heap_init((size_t)15);
+        eventTemp = (m_event *) malloc(sizeof(m_event));
+        m_event_queue = heap_init((size_t) 15);
         monsters = generate_monsters(num_mon, m_event_queue, graph, graph_no_rock);
 
-        printDungeon(dungeon);
+        //printDungeon(dungeon);
         dijkstra(graph);
         dijkstra_no_rock(graph_no_rock);
 
-        while(!PC_hit) {
-            /*
-             * For now player just moves every 100 ticks. If the player has moved,
-             * move the monsters whose next_exec is less than the current tick.
-             */
-            if (pEvent->next_exec <=tick) {
-                p_update(pEvent);
-                pEvent->next_exec+=pEvent->interval;
-                while (peek_min(m_event_queue) <= tick) {
-                    eventTemp = (m_event *) remove_min(m_event_queue);
-                    m_update(eventTemp);
-                    eventTemp->next_exec += eventTemp->interval;
-                    add_with_priority(m_event_queue, eventTemp, eventTemp->next_exec);
-                }
-                printDungeon(dungeon);
-            }
-            usleep(3);
-            tick++;
-        }
     }
+    ui = init_UI(dungeon);
+    view_focus_player(ui,pEvent->player->location->w_unit->y, pEvent->player->location->w_unit->x);
+    main_game();
+
     if(save){
         saveDungeon(dungeon);
     }
@@ -106,6 +88,108 @@ int main(int argc, char *argv[]){
     free(m_event_queue);
     free(graph);
     free(graph_no_rock);
+    cleanup_win();
+
+}
+
+int main_game() {
+
+    bool ctl_mode = false; //false = look, true = control
+    //draw_dungeon(ui);
+    int ch = 0;
+    while(ch!='Q'){
+        ch = getch();
+
+        switch(ch){
+            case '7':
+            case 'y':
+                if(ctl_mode){}
+                break;
+            case '8':
+            case 'k':
+                if(ctl_mode){}
+                else{
+                    mv_view(ui,-1,0);
+                }
+                break;
+            case '9':
+            case 'u':
+                if(ctl_mode){}
+                break;
+            case '6':
+            case 'l':
+                if(ctl_mode){}
+                else{
+                    mv_view(ui,0,1);
+                }
+                break;
+            case '3':
+            case 'n':
+                if(ctl_mode){}
+                break;
+            case '2':
+            case 'j':
+                if(ctl_mode){}
+                else{
+                    mv_view(ui,1,0);
+                }
+                break;
+            case '1':
+            case 'b':
+                if(ctl_mode){}
+                break;
+            case '4':
+            case 'h':
+                if(ctl_mode){}
+                else{
+                    mv_view(ui,0,-1);
+                }
+                break;
+            case '5':
+            case ' ':
+                if(!ctl_mode){}
+                break;
+            case '>':
+                if(ctl_mode){}
+                break;
+            case '<':
+                if(ctl_mode){}
+                break;
+            case 'L':
+                //if in control ctl_mode, switch to look ctl_mode
+                if(ctl_mode) ctl_mode = false;
+                break;
+            case 27:
+                //If in look ctl_mode, switch to control ctl_mode and then refocus view to player
+                if(!ctl_mode) ctl_mode = true;
+                view_focus_player(ui,pEvent->player->location->w_unit->y,pEvent->player->location->w_unit->x);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+
+    /*while(!PC_hit) {
+        *//*
+         * For now player just moves every 100 ticks. If the player has moved,
+         * move the monsters whose next_exec is less than the current tick.
+         *//*
+        if (pEvent->next_exec <=tick) {
+            p_update(pEvent);
+            pEvent->next_exec+=pEvent->interval;
+            while (peek_min(m_event_queue) <= tick) {
+                eventTemp = (m_event *) remove_min(m_event_queue);
+                m_update(eventTemp);
+                eventTemp->next_exec += eventTemp->interval;
+                add_with_priority(m_event_queue, eventTemp, eventTemp->next_exec);
+            }
+            printDungeon(dungeon);
+        }
+        usleep(3);
+        tick++;
+    }*/
 
 }
 

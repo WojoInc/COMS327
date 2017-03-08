@@ -7,10 +7,13 @@
 
 #include "proj_incl.h"
 #include "dijkstra.h"
-#include "dungeon.h"
+
+
+#define PLAYER '@'
 
 typedef struct player_char{
     unsigned char abilities;
+    int location_type; //type to reset the cell to after moving, rm_Floor, ROCK, etc.
     graph_t *dungeon;
     graph_t *dungeon_no_rock;
     w_unit_t *spawn_point;

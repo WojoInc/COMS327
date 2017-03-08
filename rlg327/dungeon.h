@@ -18,19 +18,16 @@
 #define NUM_ROOMS 15
 #define MAX_TRIES 2000
 
-typedef enum wunit_type{
-    IMPASS = 255,
-    ROCK = 0,
-    CORRIDOR = 2,
-    rm_FLOOR = 1,
-}wunit_type_t;
+#define IMPASS 256
+#define ROCK ' '
+#define CORRIDOR '#'
+#define rm_FLOOR '.'
 
 typedef struct w_unit{
-    wunit_type_t type;
+    int type;
     int x;
     int y;
     int hardness;
-    unsigned char contents;
 }w_unit_t;
 
 typedef struct room{
