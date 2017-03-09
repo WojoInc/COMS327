@@ -27,30 +27,36 @@ void spawn_player(player_t *player,graph_t *dungeon, graph_t *dungeon_no_rock){
     p_flatten(player);
 }
 void p_unflatten(player_t *player, vertex_t *fromPosition){
-    fromPosition->w_unit->contents ^= player->abilities;
+    fromPosition->w_unit->type = player->location_type;
 }
 
 void p_flatten(player_t *player){
-    player->location->w_unit->contents |= player->abilities;
+    player->location_type = player->location->w_unit->type;
+    player->location->w_unit->type = PLAYER;
 }
 
-void move_player(player_t *player){
-    int moveTo = 0;
-    moveTo = rand()%8;
-    if(player->location->neighbors[moveTo]->w_unit->type!=IMPASS||player->location->neighbors[moveTo]==NULL) {
-        moveTo = rand()%8;
+bool move_player(player_t *player, int dir){
+    vertex_t *last_pos = player->location;
+    if(dir<0||dir>8) return false;
+    if(player->location->neighbors[dir]->w_unit->type==CORRIDOR||
+       player->location->neighbors[dir]->w_unit->type==rm_FLOOR||
+       player->location->neighbors[dir]->w_unit->type==STAIR_DOWN||
+       player->location->neighbors[dir]->w_unit->type==STAIR_UP) {
+        //update player location
+        player->location = player->location->neighbors[dir];
+        player->dungeon->source = player->location;
+        player->dungeon_no_rock->source = &player->dungeon_no_rock->verticies[player->location->w_unit->y * d_WIDTH +
+                                                                              player->location->w_unit->x];
+        //update dungeon
+        dijkstra(player->dungeon);
+        dijkstra_no_rock(player->dungeon_no_rock);
+        p_unflatten(player, last_pos);
+        p_flatten(player);
+        //player has moved
+        return true;
     }
-    player->location = player->location->neighbors[moveTo];
-    player->dungeon->source = player->location;
-    player->dungeon_no_rock->source = &player->dungeon_no_rock->verticies[player->location->w_unit->y*d_WIDTH +
-    player->location->w_unit->x];
-    dijkstra(player->dungeon);
-    dijkstra_no_rock(player->dungeon_no_rock);
+    return false;
 }
 void p_update(p_event *pEvent){
-    vertex_t *last_pos = pEvent->player->location;
-    move_player(pEvent->player);
-    p_unflatten(pEvent->player,last_pos);
-    p_flatten(pEvent->player);
-
+    pEvent->next_exec+=pEvent->interval;
 }

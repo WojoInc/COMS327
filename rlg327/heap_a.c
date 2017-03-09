@@ -25,7 +25,7 @@
 heap_t *heap_init(size_t size){
     heap_t *heap = malloc(sizeof(heap_t));
     heap->num_alloc = size;
-    heap->nodes = (heap_n *)calloc(sizeof(heap_n), size);
+    heap->nodes = calloc(sizeof(heap_n), size);
     return heap;
 }
 
@@ -125,6 +125,10 @@ void * remove_min(heap_t *heap){
             terminate = TRUE;
         }
     }
-
     return min;
+}
+
+void cleanup_heap(heap_t *heap){
+    free(heap->nodes);
+    free(heap);
 }

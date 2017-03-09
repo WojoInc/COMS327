@@ -1,0 +1,33 @@
+==4384== HEAP SUMMARY:
+==4384==     in use at exit: 2,260,641 bytes in 32,759 blocks
+==4384==   total heap usage: 32,782 allocs, 23 frees, 4,420,691 bytes allocated
+==4384==
+==4384== 960 (240 direct, 720 indirect) bytes in 15 blocks are definitely lost in loss record 28 of 40
+==4384==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4384==    by 0x404C3A: spawn (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==    by 0x401B8B: generate_monsters (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==    by 0x401258: main (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==
+==4384== 960 (240 direct, 720 indirect) bytes in 15 blocks are definitely lost in loss record 29 of 40
+==4384==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4384==    by 0x404C3A: spawn (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==    by 0x401BDF: generate_monsters (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==    by 0x401258: main (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==
+==4384== 1,041,536 bytes in 16,274 blocks are definitely lost in loss record 39 of 40
+==4384==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4384==    by 0x403DFD: create_graph_dungeon (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==    by 0x4011C1: main (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==
+==4384== 1,041,536 bytes in 16,274 blocks are definitely lost in loss record 40 of 40
+==4384==    at 0x4C2DB8F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4384==    by 0x403DFD: create_graph_dungeon (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==    by 0x4011E9: main (in /home/wojoinc/COMS327/rlg327/dungeon)
+==4384==
+==4384== LEAK SUMMARY:
+==4384==    definitely lost: 2,083,552 bytes in 32,578 blocks
+==4384==    indirectly lost: 1,440 bytes in 30 blocks
+==4384==      possibly lost: 0 bytes in 0 blocks
+==4384==    still reachable: 175,649 bytes in 151 blocks
+==4384==         suppressed: 0 bytes in 0 blocks
+==4384== Reachable blocks (those to which a pointer was found) are not shown.

@@ -2,10 +2,8 @@
 // Created by 97wes on 1/27/2017.
 //
 
-#include "dungeon.h"
-#include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
+#include "dungeon.h"
 
 //TODO convert all dungeon generation to make use of dynamic sizes, eliminate static definitions in dungeon.h
 dungeon_t *generateDungeon(){
@@ -17,6 +15,7 @@ dungeon_t *generateDungeon(){
     setBoundaries(dungeon);
     //printDungeon(&dungeon);
     placeRooms(dungeon);
+    place_stairs(dungeon);
     drawCorridors(dungeon);
 
     return dungeon;
@@ -33,11 +32,24 @@ dungeon_t generateDungeon_d(int numRooms){
     setBoundaries(dungeon);
     //printDungeon(&dungeon);
     placeRooms(dungeon);
+    place_stairs(dungeon);
     drawCorridors(dungeon);
 
     return *dungeon;
 }
 
+void place_stairs(dungeon_t* dungeon){
+    int y, x;
+    for (int i = 0; i < NUM_STAIRS; ++i) {
+        getCentroid(&dungeon->rooms[i], &y, &x);
+        dungeon->wunits[y][x].type = STAIR_DOWN;
+        dungeon->wunits[y][x+1].type = STAIR_DOWN;
+        dungeon->wunits[y][x+2].type = STAIR_DOWN;
+    }
+
+
+
+}
 void apply_properties(dungeon_t *dungeon){
     srand(time(NULL));
     for (int i = 0; i < d_HEIGHT; ++i) {
@@ -45,7 +57,7 @@ void apply_properties(dungeon_t *dungeon){
             dungeon->wunits[i][j].hardness=(rand() % 253)+1;
             dungeon->wunits[i][j].y=i;
             dungeon->wunits[i][j].x=j;
-            dungeon->wunits[i][j].contents = 0x00;
+            dungeon->wunits[i][j].type = ROCK;
         }
     }
 
@@ -124,39 +136,7 @@ void printDungeon(dungeon_t *dungeon){
 
     for (int i = 0; i < d_HEIGHT; ++i) {
         for (int j = 0; j < d_WIDTH; ++j) {
-            if(dungeon->wunits[i][j].contents == 0x0) {
-                switch (dungeon->wunits[i][j].type) {
-
-                    case IMPASS:
-                        printf("%c", ' ');
-                        break;
-                    case CORRIDOR:
-                        printf("%c", '#');
-                        break;
-                    case rm_FLOOR:
-                        printf("%c", '.');
-                        break;
-                    case ROCK:
-                        printf("%c", ' ');
-                        break;
-                    default:
-                        printf("%c", 'x');//just to make it easier to spot errors
-                        break;
-                }
-            }
-            else{
-                if((dungeon->wunits[i][j].contents>>4 & 0x8) == 0x8){
-                    printf("%c",'@');
-                }
-                else{
-                    if((dungeon->wunits[i][j].contents & 0xF)>0x9){//prints characters a-f
-                        printf("%c", (dungeon->wunits[i][j].contents & 0xF) + 0x58);
-                    } else {//prints number of monster
-                        printf("%c", (dungeon->wunits[i][j].contents & 0xF) + 0x30);
-                    }
-                }
-
-            }
+            printf("%c", dungeon->wunits[i][j].type);
         }
         printf("%c",'\n');
     }

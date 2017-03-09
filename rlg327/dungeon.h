@@ -16,21 +16,21 @@
 #define r_MIN_H 5
 
 #define NUM_ROOMS 15
+#define NUM_STAIRS 2
 #define MAX_TRIES 2000
 
-typedef enum wunit_type{
-    IMPASS = 255,
-    ROCK = 0,
-    CORRIDOR = 2,
-    rm_FLOOR = 1,
-}wunit_type_t;
+#define IMPASS 256
+#define ROCK ' '
+#define CORRIDOR '#'
+#define rm_FLOOR '.'
+#define STAIR_UP '<'
+#define STAIR_DOWN '>'
 
 typedef struct w_unit{
-    wunit_type_t type;
+    int type;
     int x;
     int y;
     int hardness;
-    unsigned char contents;
 }w_unit_t;
 
 typedef struct room{
@@ -46,6 +46,7 @@ typedef struct dungeon{
     room_t *rooms;
 }dungeon_t;
 
+void place_stairs(dungeon_t *dungeon);
 /**
  * Generates a new dungeon.
  *

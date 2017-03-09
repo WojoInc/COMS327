@@ -4,8 +4,6 @@
 
 #include <stdlib.h>
 #include "dijkstra.h"
-//TODO test this
-
 
 /*int main(int argc, char *argv[]){
     dungeon_t *dungeon = generateDungeon();
@@ -65,7 +63,7 @@ void dijkstra(graph_t *graph){
         cursor->visited = TRUE;
         update_adjacent(heap,cursor);
     }
-    free(heap);
+    cleanup_heap(heap);
     //print_graph(graph);
 }
 
@@ -93,14 +91,15 @@ void dijkstra_no_rock(graph_t *graph){
        // print_graph(graph);
     }
     //print_graph(graph);
-    free(heap);
+    cleanup_heap(heap);
+
 }
 
 graph_t *create_graph_dungeon(dungeon_t *dungeon, w_unit_t *source){
     graph_t *graph = malloc(sizeof(graph_t));
     graph->dungeon = dungeon;
     graph->size = d_HEIGHT*d_WIDTH;
-    graph->verticies = (vertex_t*)malloc(sizeof(vertex_t) * graph->size);
+    graph->verticies = malloc(sizeof(vertex_t) * graph->size);
 
 
     for (int i = 0; i < d_HEIGHT; ++i) {
@@ -118,7 +117,7 @@ graph_t *create_graph_dungeon(dungeon_t *dungeon, w_unit_t *source){
              */
             if(dungeon->wunits[i][j].type!=IMPASS){//check that unit is not a dungeon border
 
-                graph->verticies[(i*d_WIDTH) +j].neighbors = (vertex_t **)malloc(sizeof(vertex_t*)*8);
+                graph->verticies[(i*d_WIDTH) +j].neighbors = malloc(sizeof(vertex_t*)*8);
 
                 graph->verticies[(i*d_WIDTH) +j].neighbors[0] = &graph->verticies[(i-1)*d_WIDTH +j-1];
                 graph->verticies[(i*d_WIDTH) +j].neighbors[1] = &graph->verticies[(i-1)*d_WIDTH +j];
@@ -197,4 +196,9 @@ void update_adjacent_no_rock(heap_t *heap, vertex_t *source){
         }
     }
 
+}
+
+void cleanup_graph(graph_t *graph){
+    free(graph->verticies);
+    free(graph);
 }

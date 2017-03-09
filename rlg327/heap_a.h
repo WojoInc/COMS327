@@ -32,4 +32,6 @@ int peek_min(heap_t *heap);
 void * peek_min_data(heap_t *heap);
 
 void * remove_min(heap_t *heap);
+
+void cleanup_heap(heap_t *heap);
 #endif //COMS327_HEAP_A_H

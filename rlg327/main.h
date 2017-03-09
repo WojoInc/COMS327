@@ -73,4 +73,7 @@ void parseFilePath(char *path);
  */
 FILE *openDungeon(char *path, char *mode);
 
+int main_game();
+void close_game();
+
 #endif //COMS327_MAIN_H
