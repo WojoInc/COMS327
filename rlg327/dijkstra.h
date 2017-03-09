@@ -37,4 +37,5 @@ void print_graph(graph_t *graph);
 void update_adjacent(heap_t *heap, vertex_t *source);
 void update_adjacent_no_rock(heap_t *heap, vertex_t *source);
 int w_unit_weight(int weight, w_unit_t *w_unit);
+void cleanup_graph(graph_t *graph);
 #endif //COMS327_DIJKSTRA_H

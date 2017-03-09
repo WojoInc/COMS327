@@ -2,7 +2,11 @@ Code as of now places the PC in the center of first generated room.
 Code starts by default in look mode, so pressing escape allows you to move the PC.
 Will eventually add an indicator to the first row of terminal stating which mode is active.
 Code is working, has occassional issue with drawing the dungeon border. Need to shrink ncurses window.
-Have not yet implemented stairs.
+Stairs are implemented, it will add stairs to two rooms in the dungeon.
+
+NOTE: There is a memory leak issue, though I cannot figure out why. It does not come from changing the dungeon
+floor, but from a totally different part. I have included my valgrind output in VALGRIND.
+I have the feeling I am missing something obvious.
 
 Code will auto-exit if player and monster come in contact. No message is printed for now, as we will be changing
 the interaction between monsters and PC in later project.

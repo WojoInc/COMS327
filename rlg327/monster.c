@@ -8,12 +8,12 @@
 const char mon_symbol[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
 m_event *spawn(int type, int speed, graph_t *dungeon, graph_t *dungeon_no_rock){
-    monster_t *monster = (monster_t*)malloc(sizeof(monster_t));
+    monster_t *monster = malloc(sizeof(monster_t));
     monster->type = type;
     monster->dungeon = dungeon;
     monster->dungeon_no_rock = dungeon_no_rock;
-
     monster->symbol=mon_symbol[monster->type];
+    monster->PC_location = NULL;
 
     if((monster->type & TUNNELING)==TUNNELING){
         int posx = (rand()%158)+1;

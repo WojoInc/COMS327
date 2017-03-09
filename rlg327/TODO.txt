@@ -1,3 +1,2 @@
 General to-do notes, more specific TODOS are in each file.
 
-Add stairs last. Should generate a new floor after moving down/up stairs

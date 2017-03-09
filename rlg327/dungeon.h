@@ -16,12 +16,15 @@
 #define r_MIN_H 5
 
 #define NUM_ROOMS 15
+#define NUM_STAIRS 2
 #define MAX_TRIES 2000
 
 #define IMPASS 256
 #define ROCK ' '
 #define CORRIDOR '#'
 #define rm_FLOOR '.'
+#define STAIR_UP '<'
+#define STAIR_DOWN '>'
 
 typedef struct w_unit{
     int type;
@@ -43,6 +46,7 @@ typedef struct dungeon{
     room_t *rooms;
 }dungeon_t;
 
+void place_stairs(dungeon_t *dungeon);
 /**
  * Generates a new dungeon.
  *

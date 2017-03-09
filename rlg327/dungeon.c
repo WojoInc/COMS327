@@ -15,6 +15,7 @@ dungeon_t *generateDungeon(){
     setBoundaries(dungeon);
     //printDungeon(&dungeon);
     placeRooms(dungeon);
+    place_stairs(dungeon);
     drawCorridors(dungeon);
 
     return dungeon;
@@ -31,11 +32,24 @@ dungeon_t generateDungeon_d(int numRooms){
     setBoundaries(dungeon);
     //printDungeon(&dungeon);
     placeRooms(dungeon);
+    place_stairs(dungeon);
     drawCorridors(dungeon);
 
     return *dungeon;
 }
 
+void place_stairs(dungeon_t* dungeon){
+    int y, x;
+    for (int i = 0; i < NUM_STAIRS; ++i) {
+        getCentroid(&dungeon->rooms[i], &y, &x);
+        dungeon->wunits[y][x].type = STAIR_DOWN;
+        dungeon->wunits[y][x+1].type = STAIR_DOWN;
+        dungeon->wunits[y][x+2].type = STAIR_DOWN;
+    }
+
+
+
+}
 void apply_properties(dungeon_t *dungeon){
     srand(time(NULL));
     for (int i = 0; i < d_HEIGHT; ++i) {

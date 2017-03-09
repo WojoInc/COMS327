@@ -39,7 +39,9 @@ bool move_player(player_t *player, int dir){
     vertex_t *last_pos = player->location;
     if(dir<0||dir>8) return false;
     if(player->location->neighbors[dir]->w_unit->type==CORRIDOR||
-       player->location->neighbors[dir]->w_unit->type==rm_FLOOR) {
+       player->location->neighbors[dir]->w_unit->type==rm_FLOOR||
+       player->location->neighbors[dir]->w_unit->type==STAIR_DOWN||
+       player->location->neighbors[dir]->w_unit->type==STAIR_UP) {
         //update player location
         player->location = player->location->neighbors[dir];
         player->dungeon->source = player->location;
