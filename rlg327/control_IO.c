@@ -30,6 +30,13 @@ void view_focus_player(UI_t *ui, int y, int x){
 
     draw_dungeon(ui);
 }
+
+bool in_view(UI_t *ui, int y, int x){
+    if(y<ui->top||y>(ui->top+ui->size_y)) return false;
+    else if(x<ui->left||x>(ui->left+ui->size_x)) return false;
+    else return true;
+}
+
 void draw_cell(UI_t *ui,int y, int x, int c){
     //skip drawing cell if outside window boundaries
     if(y<ui->top||y>(ui->top+ui->size_y)) return;

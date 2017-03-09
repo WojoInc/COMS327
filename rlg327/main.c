@@ -11,12 +11,14 @@
 #include "main.h"
 #include "player.h"
 #include "control_IO.h"
+#include "status.h"
 
 //setup dungeon
 dungeon_t *dungeon;
 monster_t **monsters;
 m_event *eventTemp;
 p_event *pEvent;
+s_event *sEvent;
 heap_t *m_event_queue;
 graph_t *graph, *graph_no_rock;
 UI_t *ui;
@@ -26,7 +28,6 @@ int main(int argc, char *argv[]){
     int opt = 0;
     int long_index =0;
     int num_mon = 15;
-    unsigned int tick;
     bool save=FALSE,load=FALSE,help=FALSE,display=FALSE,nummon=FALSE,PC_hit=FALSE;
     while ((opt = getopt_long_only(argc, argv,"", long_options, &long_index )) != -1) {
         switch (opt) {
@@ -69,6 +70,8 @@ int main(int argc, char *argv[]){
         dijkstra_no_rock(graph_no_rock);
 
     }
+    sEvent = malloc(sizeof(sEvent));
+    sEvent->type = 0;
     ui = init_UI(dungeon);
     view_focus_player(ui,pEvent->player->location->w_unit->y, pEvent->player->location->w_unit->x);
     main_game();
@@ -82,19 +85,68 @@ int main(int argc, char *argv[]){
                 "\n--load load dungeon from file at ./rlg327"
                 "\n--help display this help message");
     }
-   //TODO add cleanup function
+
+    close_game();
+}
+
+void close_game(){
     free(dungeon->rooms);
     free(monsters);
     free(m_event_queue);
     free(graph);
     free(graph_no_rock);
     cleanup_win();
-
+    exit(0);
+}
+void ctl_mv_p(int dir){
+    if(dir==-1){//if player is waiting a turn
+        p_update(pEvent);
+        return;
+    }
+    int prev_x = pEvent->player->location->w_unit->x;
+    int prev_y = pEvent->player->location->w_unit->y;
+    int prev_type = pEvent->player->location_type;
+    //do nothing unless the player actually moves, ie, location is not a wall or border
+    if(move_player(pEvent->player,dir)) {
+        //Use this code for all movements
+        //Redraw the floor under the player
+        draw_cell(ui,prev_y,prev_x, prev_type);
+        if(!in_view(ui,pEvent->player->location->w_unit->y,pEvent->player->location->w_unit->x)){
+            view_focus_player(ui,pEvent->player->location->w_unit->y,pEvent->player->location->w_unit->x);
+        }
+        p_update(pEvent);
+        //draw new location of player
+        draw_cell(ui, pEvent->player->location->w_unit->y, pEvent->player->location->w_unit->x, PLAYER);
+        //TODO handle moving view to move with player if player moves outside bounds of view
+    }
 }
 
+void ctl_mv_m(m_event *mEvent){
+    int prev_x = mEvent->monster->location->w_unit->x;
+    int prev_y = mEvent->monster->location->w_unit->y;
+    int prev_type = mEvent->monster->location_type;
+
+    //Redraw the floor under the monster
+    draw_cell(ui,prev_y,prev_x, prev_type);
+    move_monster(mEvent->monster);
+    m_update(mEvent,sEvent);
+    //draw new location of monster
+    draw_cell(ui, mEvent->monster->location->w_unit->y, mEvent->monster->location->w_unit->x,
+              mEvent->monster->symbol);
+
+}
+void get_status(s_event *sEvent){
+
+    if(sEvent->type==ENDGAME) {
+        printf("\nGAME OVER\n");
+        close_game();
+    }
+
+}
 int main_game() {
 
     bool ctl_mode = false; //false = look, true = control
+    bool first_move = false;//used to make sure monsters dont move until PC has made its first turn
     //draw_dungeon(ui);
     int ch = 0;
     while(ch!='Q'){
@@ -103,57 +155,90 @@ int main_game() {
         switch(ch){
             case '7':
             case 'y':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(0);
+                }
                 break;
             case '8':
             case 'k':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(1);
+                }
                 else{
                     mv_view(ui,-1,0);
                 }
                 break;
             case '9':
             case 'u':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(2);
+                }
                 break;
             case '6':
             case 'l':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(4);
+                }
                 else{
                     mv_view(ui,0,1);
                 }
                 break;
             case '3':
             case 'n':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(7);
+                }
                 break;
             case '2':
             case 'j':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(6);
+                }
                 else{
                     mv_view(ui,1,0);
                 }
                 break;
             case '1':
             case 'b':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(5);
+                }
                 break;
             case '4':
             case 'h':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(3);
+                }
                 else{
                     mv_view(ui,0,-1);
                 }
                 break;
             case '5':
             case ' ':
-                if(!ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(-1);
+                }
                 break;
             case '>':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(8);
+                }
                 break;
             case '<':
-                if(ctl_mode){}
+                if(ctl_mode){
+                    first_move = true;
+                    ctl_mv_p(9);
+                }
                 break;
             case 'L':
                 //if in control ctl_mode, switch to look ctl_mode
@@ -168,28 +253,21 @@ int main_game() {
                 break;
         }
 
-    }
-
-
-    /*while(!PC_hit) {
-        *//*
-         * For now player just moves every 100 ticks. If the player has moved,
-         * move the monsters whose next_exec is less than the current tick.
-         *//*
-        if (pEvent->next_exec <=tick) {
-            p_update(pEvent);
-            pEvent->next_exec+=pEvent->interval;
-            while (peek_min(m_event_queue) <= tick) {
-                eventTemp = (m_event *) remove_min(m_event_queue);
-                m_update(eventTemp);
-                eventTemp->next_exec += eventTemp->interval;
-                add_with_priority(m_event_queue, eventTemp, eventTemp->next_exec);
-            }
-            printDungeon(dungeon);
+        /*  process monster movements, move only monsters whose next execution time
+         * is less than the players next exec. This means that monsters that move
+         * faster than the PC will be able to move multiple times, each time adding their
+         * interval to the next_exec counter until it is greater than the PC's
+         * This loop will not execute unless the PC's next exec is updated, so look commands will not
+         * trigger it, but commands like moving or waiting a turn will update the PC's next_exec
+         * and cause the loop to execute.
+         */
+        while (first_move && peek_min(m_event_queue) <= pEvent->next_exec) {
+            eventTemp = (m_event *) remove_min(m_event_queue);
+            ctl_mv_m(eventTemp);
+            add_with_priority(m_event_queue, eventTemp, eventTemp->next_exec);
         }
-        usleep(3);
-        tick++;
-    }*/
+        get_status(sEvent);
+    }
 
 }
 

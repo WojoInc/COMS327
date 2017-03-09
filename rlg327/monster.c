@@ -4,6 +4,7 @@
 
 #include "monster.h"
 
+
 const char mon_symbol[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
 m_event *spawn(int type, int speed, graph_t *dungeon, graph_t *dungeon_no_rock){
@@ -60,7 +61,7 @@ void detect_PC(monster_t *monster){
 
 void tunnel(monster_t *monster, vertex_t *moveTo){
     moveTo->w_unit->hardness -= TUNNEL_CONST;
-    if(moveTo->w_unit->hardness<=0){
+    if(moveTo->w_unit->hardness<=0 && moveTo->w_unit->type==ROCK){
         moveTo->w_unit->hardness=0;
         moveTo->w_unit->type = CORRIDOR;
         monster->location = moveTo;
@@ -80,10 +81,18 @@ void move_intel(monster_t *monster){
      * Instead, just checks if moveTo is rock, then tunnels
      */
     vertex_t *moveTo = monster->location->prev;
+    if(moveTo==NULL) return;
     if(moveTo->w_unit->type == ROCK){
         tunnel(monster,moveTo);
     }
-    monster->location = monster->location->prev;
+    else if(monster->location->prev->w_unit->type!=IMPASS) {
+        if(moveTo->w_unit->type==rm_FLOOR||
+           moveTo->w_unit->type==CORRIDOR||
+                moveTo->w_unit->type=='@'){//make sure its not moving on top of another monster
+            monster->location = moveTo;
+        }
+    }
+
 }
 
 void move_unintel(monster_t *monster){
@@ -112,20 +121,16 @@ void move_unintel(monster_t *monster){
                 tunnel(monster, moveTo);
             }
         }
-        else{
+        else if(moveTo->w_unit->type==IMPASS){
+            return;
+        }
+        else if(moveTo->w_unit->type==rm_FLOOR||
+                    moveTo->w_unit->type==CORRIDOR
+                ||moveTo->w_unit->type=='@'){//make sure its not moving on top of another monster
             monster->location = moveTo;
         }
     }
     else return;
-}
-
-void move_monster(monster_t *monster){
-    if((monster->type & INTELLIGENCE)==INTELLIGENCE){
-        move_intel(monster);
-    }
-    else{ //unintelligent, move in straight line to PC. if PC not yet seen or remembered, don't move_monster
-        move_unintel(monster);
-    }
 }
 
 void move_erratic(monster_t *monster) {
@@ -146,12 +151,58 @@ void move_erratic(monster_t *monster) {
                 num = rand() % 8;
             }
         }
-        else{//if neighbor is an open space, move_monster to it
+        else if(monster->location->neighbors[num]->w_unit->type==rm_FLOOR||
+                monster->location->neighbors[num]->w_unit->type==CORRIDOR){//if neighbor is an open space, move_monster to it
             monster->location = monster->location->neighbors[num];
             moved = TRUE;
         }
     }
 }
+
+bool move_monster(monster_t *monster){
+    vertex_t *last_pos = monster->location;
+    detect_PC(monster);
+
+    /*
+     * If monster is erratic, generate random number. Determine if it is even or odd.
+     * Theoretically, this should give the monster a 50/50 chance of moving as per
+     * it's abilities, however, rand() is not necessarily uniform.
+     *
+     * even = move according to abilities
+     * odd = move_monster to random neighbor cell
+     */
+    if((monster->type & ERRATIC)==ERRATIC){
+        if(rand()%2!=0){
+            move_erratic(monster);
+
+        }
+        else{
+            if((monster->type & INTELLIGENCE)==INTELLIGENCE){
+                move_intel(monster);
+            }
+            else{ //unintelligent, move in straight line to PC. if PC not yet seen or remembered, don't move_monster
+                move_unintel(monster);
+            }
+        }
+        m_unflatten(monster,last_pos);
+        m_flatten(monster);
+        return true;
+    }
+
+
+    if((monster->type & INTELLIGENCE)==INTELLIGENCE){
+        move_intel(monster);
+    }
+    else{ //unintelligent, move in straight line to PC. if PC not yet seen or remembered, don't move_monster
+        move_unintel(monster);
+    }
+
+    m_unflatten(monster,last_pos);
+    m_flatten(monster);
+    return true;
+}
+
+
 
 void m_unflatten(monster_t *monster, vertex_t *fromPosition){
     fromPosition->w_unit->type = monster->location_type;
@@ -165,35 +216,13 @@ void m_flatten(monster_t *monster){
 int m_rand_abilities(){
     return rand()%16;
 }
-void m_update(m_event *mEvent){
-    vertex_t *last_pos = mEvent->monster->location;
+void m_update(m_event *mEvent,s_event *sEvent){
+    //detect endgame
+    if(mEvent->monster->location==mEvent->monster->dungeon->source ||
+            mEvent->monster->location==mEvent->monster->dungeon_no_rock->source){
+        sEvent->type = ENDGAME;
+    }
 
-    if(last_pos->w_unit == mEvent->monster->dungeon->source->w_unit ||
-            last_pos->w_unit == mEvent->monster->dungeon_no_rock->source->w_unit){
-        printf("\nGAME OVER\n");
-        exit(0);
-    }
-    /*
-     * If monster is erratic, generate random number. Determine if it is even or odd.
-     * Theoretically, this should give the monster a 50/50 chance of moving as per
-     * it's abilities, however, rand() is not necessarily uniform.
-     *
-     * even = move according to abilities
-     * odd = move_monster to random neighbor cell
-     */
-    if((mEvent->monster->type & ERRATIC)==ERRATIC){
-        if(rand()%2==0){
-            detect_PC(mEvent->monster);
-            move_monster(mEvent->monster);
-        }
-        else{
-            move_erratic(mEvent->monster);
-        }
-        return;
-    }
-    detect_PC(mEvent->monster);
-    move_monster(mEvent->monster);
-    m_unflatten(mEvent->monster,last_pos);
-    m_flatten(mEvent->monster);
+    mEvent->next_exec+=mEvent->interval;
 }
 

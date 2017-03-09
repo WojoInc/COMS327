@@ -30,6 +30,7 @@ UI_t *init_UI(dungeon_t *dungeon);
 void cleanup_win();
 void draw_dungeon(UI_t *ui);
 void view_focus_player(UI_t *ui, int y, int x);
+bool in_view(UI_t *ui, int y, int x);
 
 
 #endif //COMS327_CONTROL_IO_H

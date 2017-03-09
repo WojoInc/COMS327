@@ -560,3 +560,213 @@ Author: wojoinc <wojoinc@gmail.com>
 Date:   Mon Jan 16 20:41:00 2017 -0600
 
     Initial commit
+commit 8b5332474a76d85b6be5072b747a571011a4939f
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Tue Mar 7 21:00:08 2017 -0600
+
+    Added method to handle main game functions, and implemented look mode commands, need to implement control mode commands as well as stairs. Updated monster and player classes to more efficient means of printing the symbol representing the character.
+
+commit 11b7538cfc18bfd1b06171284ab64d76aa29678d
+Merge: 1fcb5e8 6e17fe2
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Sun Feb 26 17:20:07 2017 -0600
+
+    Merge pull request #4 from WojoInc/Assignment-1.04
+    
+    Pull Finished 1.04
+
+commit 6e17fe2c64e16fb088d1f5fed3a9e8d98eb41b34
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Sun Feb 26 17:11:00 2017 -0600
+
+    Updated files, now the project does run, and the monsters move properly, program will segfault every once in awhile, indicating a potential issue with a monster navigating past a border. To fix this, will remove static number of 8 neighbors for each vertex, and instead only add verticies that are not dungeon borders, or on the no_rock graph, ones that are not borders or rocks.
+
+commit d085cd6b6e2245a7093f936aa6ff05c2bf418d7e
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Thu Feb 23 03:13:27 2017 -0600
+
+    Fixed issues with memory allocation that caused earlier version of  the program to crash. Program now runs properly without crashing, however, issues with the event queue sometimes cause monsters and the PC to either not move, or move improperly. Need to go back and work on the event queue, or wait until we get to C++ so event-driven execution is easier to implement.
+
+commit 96f1c1eb2267c03ab4e33ccdc019be6e813a1b95
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Tue Feb 21 19:33:32 2017 -0600
+
+    initial commit of Assignment 1.04
+
+commit 1fcb5e898b3660be78e085a38ff3712abdf49899
+Merge: 66c0627 78f1348
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 20 20:57:16 2017 -0600
+
+    Merge pull request #3 from WojoInc/Assignment-1.03
+    
+    Assignment 1.03
+
+commit 78f1348d41d1d50f76b291b468e42ec081424ded
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 20 20:54:05 2017 -0600
+
+    Updated CHANGELOG to include all recent changes across all branches.
+
+commit 24eb294534d1690a443dee3d4b722d93d357e1b2
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 20 20:50:49 2017 -0600
+
+    Fully implemented and tested dijkstra and heap. Incorporated these into the main program by adding a --display option, which will generate, but not save, a dungeon, and then display the path graph overlayed on the dungeon as well. Added Makefile, CHANGELOG, and README to project as well. Files are ready to be merged into master.
+
+commit a351af34f68ed9811f9dbba984ff5c053dcf05be
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 20 00:35:52 2017 -0600
+
+    Dijkstra's fully implemented, reimplemented heap to use an array instead. Program has a segfault problem, seems like an array issue. Easy to sort out. Program does compile so committing progress for now. Also added proj_incl to project to keep track of commonly used headers.
+
+commit 1b951e630c58e3ac3d6df87a09136c2e66236026
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 13 19:21:15 2017 -0600
+
+    Updated heap.
+
+commit a7e9f7340045f14047189032a07577ed84494d97
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 13 09:22:13 2017 -0600
+
+    Began project from scratch again, implemented priority queue using simple min heap. Need to iron out issues with multiple successive removals from the heap. Could make heap faster in the future by adding alpha balancing, but not needed for now.
+
+commit 771d41a49dcb44d6b20f3394b0240cfcc6a79fe2
+Merge: 745f8f8 e2843a7
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 13 09:22:01 2017 -0600
+
+    Merge remote-tracking branch 'origin/Assignment-1.03' into Assignment-1.03
+    
+    # Conflicts:
+    #	Assignment-1.03/dijkstra.c
+    #	Assignment-1.03/dijkstra.h
+
+commit 745f8f895e95e898af2f88c3f9f15701638f69b4
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Feb 13 09:21:42 2017 -0600
+
+    Began project from scratch again, implemented priority queue using simple min heap. Need to iron out issues with multiple successive removals from the heap. Could make heap faster in the future by adding alpha balancing, but not needed for now.
+
+commit e2843a76ceb90534fca06a186d7b9a1d46f8ff2f
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Wed Feb 8 09:41:46 2017 -0600
+
+    Removed and restarted dijkstra code, using a much more efficient and easy to understand method, will not worry about using the priority queue for now, but may add it at a later date.
+
+commit 408431dd0fead8f96b20400eee8af021aa1041af
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Tue Feb 7 18:49:04 2017 -0600
+
+    Commit for Assignment 1.03 files, created a simple queue, began laying out basic setup for dijkstra. Also modified some aspects of the struct for w_unit
+
+commit 368e90b8eeaf08aa3b6b96be769ad425bf71c014
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Wed Feb 1 22:35:48 2017 -0600
+
+    Fixed issue where load method would not draw corridors. Also fixed issue whereby cell hardness was implemented, but random cell hardness was not part of generateDungeon(). Also improved random generation of room position and size, as 0s could be generated which would cause checkRoom() to go out of the array bounds when checking the area around a room, causing random intermittent segfaults. Also cleaned up unnecessary code , and added additional comments, and descriptions to function prototypes in header files.
+
+commit 75cf9d07a78bd313e39e80f768baefef1bbf70de
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Wed Feb 1 21:09:09 2017 -0600
+
+    Added command line arguments, cleaned up code. Still have issue with load method.
+
+commit abe94dcd11f371a3c4f5c2bccfbc97852b9434ef
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Wed Feb 1 15:57:25 2017 -0600
+
+    Fixed issue with endianess, as I had not realized the functions used were byte-order, and not bit order. Also, reworked the dungeon struct to include a pointer representation, avoiding the "invalid use of flexible member" error, allowing it to be dynamically allocated when loading a dungeon, rather than needing the number of rooms to be defined at compile time.  Also fixed d_HEIGHT and d_WIDTH in dungeon.h as I had the values backwards from the last assignment, which caused dungeons to be written in the wrong order. Added seperate functions for opening file and parsing file path in order to clean up code and correctly report errors. Need to implement command line args still.
+
+commit f3779865995db12a58c4105c9717f516ff4b050e
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Wed Feb 1 09:20:59 2017 -0600
+
+    Implemeted saving of dungeon as well as loading. Loading still has some issues to wrok out, namely correctly caluclating the number of rooms to draw. Also need to check to make sure values are being converted to and from big endian when needed.
+
+commit 1231f00f3f589effc8618c8b9d06822f53547ff4
+Merge: 783bf75 ea0b3f3
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Wed Feb 1 09:20:48 2017 -0600
+
+    Merge remote-tracking branch 'origin/Assignment-1.02' into Assignment-1.02
+    
+    # Conflicts:
+    #	Assignment-1.02/main.c
+    #	Assignment-1.02/main.h
+
+commit 783bf7545c8e53cba143fcca88ebf0c2a112c83b
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Wed Feb 1 09:20:23 2017 -0600
+
+    Implemeted saving of dungeon as well as loading. Loading still has some issues to wrok out, namely correctly caluclating the number of rooms to draw. Also need to check to make sure values are being converted to and from big endian when needed.
+
+commit ea0b3f33476436a5af288beef01578a09a95af0e
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Mon Jan 30 18:28:14 2017 -0600
+
+    Fixed file path issue. Added compile flags for windows and unix file systems. Still need to address directory issue. See TODO.
+
+commit e23963a1d7c01d5b44bbd5fd7ebfc0f2644e1249
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Mon Jan 30 15:50:07 2017 -0600
+
+    Began implementation of save method. Working mostly with proper concatentation of file path. Still need to address directory issue. See TODO.
+
+commit 29fcadb5aeb1890b43c83c5d96c6be9655bc169b
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Fri Jan 27 14:57:39 2017 -0600
+
+    Initial Commit
+
+commit 66c0627822dac2ab69e723641eb588254b4b17af
+Merge: 7c0d6f8 a8dd445
+Author: Thomas John Wesolowski <wojoinc@iastate.edu>
+Date:   Wed Jan 25 20:13:00 2017 -0600
+
+    Merge pull request #1 from WojoInc/draw_corridor_update
+    
+    Draw corridor update
+
+commit a8dd445959c6dc968b96024dfbff58958055f212
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Wed Jan 25 20:08:48 2017 -0600
+
+    Updated corridor drawing algorithm to use the centroid of each room and connect to the closest room, rather than in order of generation. Added javadoc-esque comment blocks to all function declarations in main.h
+
+commit 95c0ea6e241a2c448eaa9bdc612f4f5901f607a7
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Wed Jan 25 19:00:17 2017 -0600
+
+    Began work on updating the corridor drawing method.
+
+commit 7c0d6f8a3e4e04aa4f054ba5d4c32ac456c40b6a
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Wed Jan 25 16:45:31 2017 -0600
+
+    Finished project. Only things left to do are optimization of the corridor drawing to draw from the center of a room, and to connect the closest room, in order to clean up number of needless corridors drawn.
+
+commit 5c5343e70bd562fb2b03affb9b5378eaff8ca888
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Wed Jan 25 00:32:39 2017 -0600
+
+    Implemented room generation. Fixed issue with dungeon not correctly outputting to console. Migrated all aspects of world units within the dungeon struct into a w_unit struct rather than an enum, as this caused issues and made code sloppy.
+
+commit 1067bfba66209ae630a6ad71205dd177a155e3a2
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Tue Jan 24 07:17:33 2017 -0600
+
+    Created Assignment 1 files, began work on assignment 1.
+
+commit 36cd4aa38453b31fd2fdebf08d5d07f609cdf842
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Wed Jan 18 18:18:58 2017 -0600
+
+    Updated assignment 0 files.
+
+commit 624c1914c4dd5d89a7adaf97a0d94d2bceffab4d
+Author: wojoinc <wojoinc@gmail.com>
+Date:   Mon Jan 16 20:41:00 2017 -0600
+
+    Initial commit

@@ -8,6 +8,7 @@
 #include "proj_incl.h"
 #include "dungeon.h"
 #include "dijkstra.h"
+#include "status.h"
 
 #define INTELLIGENCE 0x1
 #define TELEPATHY 0x2
@@ -40,15 +41,10 @@ void detect_PC_LOS(monster_t *monster);
 void tunnel(monster_t *monster, vertex_t *moveTo);
 void move_intel(monster_t *monster);
 void move_unintel(monster_t *monster);
-void move_monster(monster_t *monster);
+bool move_monster(monster_t *monster);
 void m_unflatten(monster_t *monster, vertex_t *fromPosition);
 void m_flatten(monster_t *monster);
-void m_update(m_event *mEvent);
+void m_update(m_event *mEvent, s_event *sEvent);
 int m_rand_abilities();
-/**
- * Whenever a monster event is removed from queue, call m_update, passing a reference to
- * the event which triggered the update.
- * @param mEvent
- */
-void m_update(m_event *mEvent);
+
 #endif //COMS327_MONSTER_H

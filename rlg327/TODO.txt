@@ -1,12 +1,3 @@
 General to-do notes, more specific TODOS are in each file.
 
-Remove wunit->contents, bitwise operators make code confusing and are not efficient
-Replace with an int that keeps track of the contents, and is simply populated with the ASCII
-character that the unit should be represented by.
-
-Update Monster and player files to make use of bools in each struct to keep track of attributes instead.
-May re-use the representation as 4bits to save the monsters to a file later.
-
-Add controls as per the project description for 1.05.
-
 Add stairs last. Should generate a new floor after moving down/up stairs
