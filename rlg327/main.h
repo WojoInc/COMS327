@@ -5,7 +5,7 @@
 #define COMS327_MAIN_H
 
 #include <stdint.h>
-#include "dungeon.h"
+#include "../deprecated/dungeon.h"
 #include "proj_incl.h"
 #include "dijkstra.h"
 #include "monster.h"

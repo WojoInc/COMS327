@@ -7,8 +7,6 @@
 #include <sys/stat.h>
 #include <memory.h>
 #include <errno.h>
-#include <zconf.h>
-#include <langinfo.h>
 #include "main.h"
 #include "player.h"
 #include "control_IO.h"

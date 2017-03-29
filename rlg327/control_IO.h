@@ -5,7 +5,7 @@
 #ifndef COMS327_CONTROL_IO_H
 #define COMS327_CONTROL_IO_H
 
-#include "dungeon.h"
+#include "../deprecated/dungeon.h"
 #include "ncurses.h"
 #include "proj_incl.h"
 

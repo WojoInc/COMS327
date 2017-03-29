@@ -6,7 +6,7 @@
 #define COMS327_MONSTER_H
 
 #include "proj_incl.h"
-#include "dungeon.h"
+#include "../deprecated/dungeon.h"
 #include "dijkstra.h"
 #include "status.h"
 

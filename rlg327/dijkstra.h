@@ -5,7 +5,7 @@
 #ifndef COMS327_DIJKSTRA_H
 #define COMS327_DIJKSTRA_H
 
-#include "dungeon.h"
+#include "../deprecated/dungeon.h"
 #include "heap_a.h"
 
 #define WEIGHT_1 1
