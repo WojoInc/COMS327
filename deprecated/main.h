@@ -1,20 +1,16 @@
 //
-// Created by wojoinc on 3/29/17.
+// Created by 97wes on 1/21/2017.
 //
-
 #ifndef COMS327_MAIN_H
 #define COMS327_MAIN_H
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <memory.h>
-#include <errno.h>
-#include "pc.h"
-#include "npc.h"
-#include "control_IO.h"
-#include "status.h"
+
+#include <stdint.h>
+#include "../deprecated/dungeon.h"
+#include "proj_incl.h"
+#include "dijkstra.h"
+#include "NPC.h"
+
 #include <getopt.h>
-#include <string>
 
 /*
  * Handle issues with filesystem and OS differences by creating flags that
@@ -41,18 +37,18 @@ static struct option long_options[] = {
 };
 
 
-NPC **generate_monsters(int nummon, Heap *heap, Graph *dungeon, Graph *dungeon_no_rock);
+NPC **generate_monsters(int nummon, heap_t *heap, graph_t *dungeon, graph_t *dungeon_no_rock);
 /**
  * Saves @dungeon to a file path created at %HOME%/.rlg327/dungeon
  * @param dungeon the dungeon to be saved
  */
-void saveDungeon(Dungeon *dungeon);
+void saveDungeon(dungeon_t *dungeon);
 
 /**
  * Loads @dungeon from a file path created at %HOME%/.rlg327/dungeon
  * @param dungeon dungeon to be loaded
  */
-void loadDungeon(Dungeon *dungeon);
+void loadDungeon(dungeon_t *dungeon);
 
 /**
  * Calculates the size of the dungeon to be saved, based on the number of
@@ -80,4 +76,5 @@ FILE *openDungeon(char *path, char *mode);
 
 int main_game();
 void close_game();
+
 #endif //COMS327_MAIN_H

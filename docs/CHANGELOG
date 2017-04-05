@@ -1,3 +1,5 @@
+Converted code to C++, implemented parser as per Assignment 1.07 guidelines. Code exits after printing the the results of parsing for now.
+
 Updated methods to implement control mode, rearranged monster and player code to allow for better event queue, and implemented movement for player and monsters. When player moves off-screen, window refocuses to have PC in center of screen. May change this later. Code moves fluidly between control and look mode. Ocassional issue where keys are pressed in rapid succession can cause program to lock up. Have not yet implemented stairs. This is the last part I need to do.
 
 Fixed issues with memory allocation that caused earlier version of the program to crash. Program now runs properly without crashing, however, issues with the event queue sometimes cause monsters and the PC to either not move, or move improperly. Need to go back and work on the event queue, or wait until we get to C++ so event-driven execution is easier to implement.

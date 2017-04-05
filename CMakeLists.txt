@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.6)
-project(COMS327)
+project(COMS327 CXX)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 11)
 link_libraries(ncurses)
 set(nctest-source ncursestest/nctest.c ncursestest/nctest.h)
-set(ASSGN-13-SOURCE rlg327/main.c rlg327/main.h rlg327/dijkstra.c rlg327/dijkstra.h deprecated/dungeon.c deprecated/dungeon.h rlg327/heap_a.c rlg327/heap_a.h rlg327/monster.c rlg327/monster.h rlg327/proj_incl.h rlg327/player.c rlg327/player.h rlg327/control_IO.c rlg327/control_IO.h rlg327/status.c rlg327/status.h rlg327/dungeon.cpp rlg327/dungeon.h)
+set(ASSGN-13-SOURCE rlg327/main.h rlg327/proj_incl.h rlg327/control_IO.cpp rlg327/control_IO.h rlg327/status.c rlg327/status.h rlg327/dungeon.cpp rlg327/dungeon.h rlg327/dijkstra.cpp rlg327/dijkstra.h rlg327/heap.cpp rlg327/heap.h rlg327/main.cpp rlg327/main.h rlg327/character.cpp rlg327/character.h rlg327/npc.h rlg327/npc.cpp rlg327/pc.cpp rlg327/pc.h rlg327/parser.cpp rlg327/parser.h rlg327/dice.cpp rlg327/dice.h)
 add_executable(rlg327 ${ASSGN-13-SOURCE})
 #add_executable(nctest ${nctest-source})
 #add_executable(Assignment0 ${ASSGN-0-SOURCE})

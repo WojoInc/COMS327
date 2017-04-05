@@ -7,5 +7,6 @@
 
 #include<stdio.h>
 #include <stdlib.h>
+#include <cstdlib>
 #include <ncurses.h>
 #endif //COMS327_STD_INCL_H

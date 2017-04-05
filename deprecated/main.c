@@ -8,15 +8,16 @@
 #include <memory.h>
 #include <errno.h>
 #include "main.h"
-#include "player.h"
+#include "PC.h"
 #include "control_IO.h"
 #include "status.h"
 
 //setup dungeon
 dungeon_t *dungeon;
-monster_t **monsters;
-m_event *eventTemp;
-p_event *pEvent;
+NPC **monsters;
+PC* player;
+struct Character *characterTmp;
+//p_event *pEvent;
 s_event *sEvent;
 heap_t *m_event_queue;
 graph_t *graph, *graph_no_rock;
@@ -54,13 +55,13 @@ int main(int argc, char *argv[]){
     else {
         //if not loading a dungeon, generate a new one
         dungeon = generateDungeon();
-        pEvent = player_init(dungeon, 10);
+        player = newPC(dungeon,10);
 
-        graph = create_graph_dungeon(dungeon, pEvent->player->spawn_point);
-        graph_no_rock = create_graph_dungeon(dungeon, pEvent->player->spawn_point);
-        spawn_player(pEvent->player, graph, graph_no_rock);
+        graph = create_graph_dungeon(dungeon, get_spawn_point(player));
+        graph_no_rock = create_graph_dungeon(dungeon, get_spawn_point(player));
+        call_PC_spawn(player, graph, graph_no_rock);
 
-        eventTemp = malloc(sizeof(m_event));
+        characterTmp = malloc(sizeof(struct Character));
         m_event_queue = heap_init((size_t) 15);
         monsters = generate_monsters(num_mon, m_event_queue, graph, graph_no_rock);
 
@@ -72,7 +73,7 @@ int main(int argc, char *argv[]){
     sEvent = malloc(sizeof(sEvent));
     sEvent->type = 0;
     ui = init_UI(dungeon);
-    view_focus_player(ui,pEvent->player->location->w_unit->y, pEvent->player->location->w_unit->x);
+    view_focus_player(ui,get_location((Character *)player)->w_unit->y, get_location((Character *)player)->w_unit->x);
     main_game();
 
     if(save){
@@ -93,8 +94,8 @@ void close_game(){
 
     }
     free(dungeon->rooms);
-    free(pEvent->player);
-    free(pEvent);
+    free(player);
+
     free(sEvent);
     /*for (int j = 0; j < num_mon; ++j) {
         free(monsters[j]);
@@ -111,13 +112,13 @@ void close_game(){
 
 void change_floors(){
     dungeon = generateDungeon();
-    pEvent = player_init(dungeon, 10);
+    player = newPC(dungeon, 10);
 
-    graph = create_graph_dungeon(dungeon, pEvent->player->spawn_point);
-    graph_no_rock = create_graph_dungeon(dungeon, pEvent->player->spawn_point);
-    spawn_player(pEvent->player, graph, graph_no_rock);
+    graph = create_graph_dungeon(dungeon, get_spawn_point(player));
+    graph_no_rock = create_graph_dungeon(dungeon, get_spawn_point(player));
+    call_PC_spawn(player, graph, graph_no_rock);
 
-    eventTemp = (m_event *) malloc(sizeof(m_event));
+    characterTmp = malloc(sizeof(struct Character));
     m_event_queue = heap_init((size_t) 15);
     monsters = generate_monsters(num_mon, m_event_queue, graph, graph_no_rock);
 
@@ -126,60 +127,60 @@ void change_floors(){
     dijkstra_no_rock(graph_no_rock);
 
     ui = init_UI(dungeon);
-    view_focus_player(ui,pEvent->player->location->w_unit->y, pEvent->player->location->w_unit->x);
+    view_focus_player(ui,get_location((Character*)player)->w_unit->y, get_location((Character*)player)->w_unit->x);
     //reset player event counter
-    pEvent->next_exec=pEvent->interval;
+    //TODO fix this once fully ported to C++
 }
 
 void ctl_mv_p(int dir){
     if(dir==-1){//if player is waiting a turn
-        p_update(pEvent);
+        call_Character_update_event((Character*)player);
         return;
     }
     if(dir==8){
-        if(pEvent->player->location_type==STAIR_DOWN){
+        if(get_location_type((Character*)player)==STAIR_DOWN){
             change_floors();
             return;
         }
         else return;
     }
     if(dir==9){
-        if(pEvent->player->location_type==STAIR_DOWN){
+        if(get_location_type((Character*)player)==STAIR_DOWN){
             change_floors();
             return;
         }
         else return;
     }
-    int prev_x = pEvent->player->location->w_unit->x;
-    int prev_y = pEvent->player->location->w_unit->y;
-    int prev_type = pEvent->player->location_type;
+    int prev_x = get_location((Character*)player)->w_unit->x;
+    int prev_y = get_location((Character*)player)->w_unit->y;
+    int prev_type = get_location_type((Character*)player);
     //do nothing unless the player actually moves, ie, location is not a wall or border
-    if(move_player(pEvent->player,dir)) {
+    if(call_PC_move(player,dir)) {
         //Use this code for all movements
         //Redraw the floor under the player
         draw_cell(ui,prev_y,prev_x, prev_type);
-        if(!in_view(ui,pEvent->player->location->w_unit->y,pEvent->player->location->w_unit->x)){
-            view_focus_player(ui,pEvent->player->location->w_unit->y,pEvent->player->location->w_unit->x);
+        if(!in_view(ui,get_location((Character*)player)->w_unit->y,get_location((Character*)player)->w_unit->x)){
+            view_focus_player(ui,get_location((Character*)player)->w_unit->y,get_location((Character*)player)->w_unit->x);
         }
-        p_update(pEvent);
+        call_Character_update_event((Character*)player);
         //draw new location of player
-        draw_cell(ui, pEvent->player->location->w_unit->y, pEvent->player->location->w_unit->x, PLAYER);
+        draw_cell(ui, get_location((Character*)player)->w_unit->y, get_location((Character*)player)->w_unit->x, player);
         //TODO handle moving view to move with player if player moves outside bounds of view
     }
 }
 
-void ctl_mv_m(m_event *mEvent){
-    int prev_x = mEvent->monster->location->w_unit->x;
-    int prev_y = mEvent->monster->location->w_unit->y;
-    int prev_type = mEvent->monster->location_type;
+void ctl_mv_m(struct NPC *monster){
+    int prev_x = get_location((Character*)monster)->w_unit->x;
+    int prev_y = get_location((Character*)monster)->w_unit->y;
+    int prev_type = get_location_type((Character*)monster);
 
     //Redraw the floor under the monster
     draw_cell(ui,prev_y,prev_x, prev_type);
-    move_monster(mEvent->monster);
-    m_update(mEvent,sEvent);
+    call_Character_move((Character*) monster);
+    call_Character_update_event((Character*)monster);
     //draw new location of monster
-    draw_cell(ui, mEvent->monster->location->w_unit->y, mEvent->monster->location->w_unit->x,
-              mEvent->monster->symbol);
+    draw_cell(ui, get_location((Character*)monster)->w_unit->y, get_location((Character*)monster)->w_unit->x,
+              get_symbol((Character*)monster));
 
 }
 
@@ -296,7 +297,7 @@ int main_game() {
             case 27:
                 //If in look ctl_mode, switch to control ctl_mode and then refocus view to player
                 if(!ctl_mode) ctl_mode = true;
-                view_focus_player(ui,pEvent->player->location->w_unit->y,pEvent->player->location->w_unit->x);
+                view_focus_player(ui,get_location((Character*)player)->w_unit->y,get_location((Character*)player)->w_unit->x);
                 break;
             default:
                 break;
@@ -310,23 +311,23 @@ int main_game() {
          * trigger it, but commands like moving or waiting a turn will update the PC's next_exec
          * and cause the loop to execute.
          */
-        while (first_move && peek_min(m_event_queue) <= pEvent->next_exec) {
-            eventTemp = (m_event *) remove_min(m_event_queue);
-            ctl_mv_m(eventTemp);
-            add_with_priority(m_event_queue, eventTemp, eventTemp->next_exec);
+        while (first_move && peek_min(m_event_queue) <= get_next_move((Character*)player)) {
+            characterTmp = remove_min(m_event_queue);
+            ctl_mv_m(characterTmp);
+            add_with_priority(m_event_queue, characterTmp, get_next_move(characterTmp));
         }
         get_status(sEvent);
     }
 
 }
 
-monster_t **generate_monsters(int num_mon, heap_t *heap, graph_t *dungeon, graph_t *dungeon_no_rock){
+NPC **generate_monsters(int num_mon, heap_t *heap, graph_t *dungeon, graph_t *dungeon_no_rock){
     //monster_t **monsters = malloc(num_mon*sizeof(monster_t*));
-    m_event *event;
+    struct NPC *npc;
     for (int i = 0; i < num_mon; ++i) {
-        event = spawn(m_rand_abilities(),(rand()%15)+5,dungeon,dungeon_no_rock);
+        npc = newNPC(rand()%16,(rand()%15)+5,dungeon,dungeon_no_rock);
       //  monsters[i] = event->monster;
-        add_with_priority(heap,spawn(m_rand_abilities(),(rand()%15)+5,dungeon,dungeon_no_rock),event->interval);
+        add_with_priority(heap,npc,get_next_move(npc));
     }
     return monsters;
 }

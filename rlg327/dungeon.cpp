@@ -3,10 +3,13 @@
 //
 
 #include <cstdlib>
+#include <ctime>
 #include "dungeon.h"
 
 Dungeon::Dungeon(int height, int width, int num_rooms) {
 
+    this->height=height;
+    this->width=width;
     cells = new Cell[height*width];
     rooms = new Room[num_rooms];
     applyProperties();
@@ -15,7 +18,6 @@ Dungeon::Dungeon(int height, int width, int num_rooms) {
     placeRooms();
     placeStairs();
     drawCorridors();
-
 }
 
 Dungeon::~Dungeon() {
@@ -34,7 +36,7 @@ void Dungeon::placeStairs() {
 }
 
 void Dungeon::applyProperties() {
-    srand(time(NULL));
+    srand(time(nullptr));
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             cells[i*width+j].setHardness((rand()%253)+1);
@@ -103,31 +105,29 @@ void Dungeon::setBoundaries() {
     }
 }
 
-int Dungeon::compareDistance(Room *ref, Room *room1, Room *room2) {
-    return 0;
+int Room::compareDistance(Room *room1, Room *room2) {
+    int p1Res = dotProduct(room1->getY(),room1->getX(),room2->getY(),room2->getX());
+    int p2Res = dotProduct(room2->getY(),room2->getX(),room1->getY(),room1->getX());
+
+    if (p1Res == p2Res)return 0;
+    else if (p1Res < p2Res)return -1;
+    else return 1;
 }
 
-int Dungeon::compareDistanceCtrd(Room *ref, Room room1, Room room2) {
-    return 0;
+int Room::compareDistanceCtrd(Room *room1, Room *room2) {
+    int p1Res = dotProduct(room1->getY(),room1->getX(),room2->getY(),room2->getX());
+    int p2Res = dotProduct(room2->getY(),room2->getX(),room1->getY(),room1->getX());
+
+    if (p1Res == p2Res)return 0;
+    else if (p1Res < p2Res)return -1;
+    else return 1;
 }
 
 int Dungeon::writeDungeon(FILE *file) {
     int bytesWritten=0;
     char *NULL_BYTE = 0x00;
     int toWrite=0;
-/*    for (int i = 0; i < d_HEIGHT; ++i) {
-        for (int j = 0; j < d_WIDTH; ++j) {
-            if(dungeon->wunits[i][j].type==(rm_FLOOR||CORRIDOR)){
-                fwrite(&NULL_BYTE,sizeof(char),1,f);
-                bytesWritten++;
-            }
-            else{
-                toWrite = (uint8_t)htobe32((unsigned int) dungeon->wunits[i][j].hardness);
-                fwrite(&toWrite,sizeof(char),1,f);
-                bytesWritten++;
-            }
-        }
-    }*/
+
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             if(cells[i*width+j].getType()==(rm_FLOOR||CORRIDOR)){
@@ -147,10 +147,10 @@ int Dungeon::writeDungeon(FILE *file) {
 int Dungeon::writeRooms(FILE *file) {
     int bytesWritten=0;
     for (int i = 0; i < NUM_ROOMS; ++i) {
-        std::fwrite(rooms[i].getX(),sizeof(char),1,file);
+        /*std::fwrite(rooms[i].getX(),sizeof(char),1,file);
         std::fwrite(rooms[i].getY(),sizeof(char),1,file);
         std::fwrite(rooms[i].getWidth(),sizeof(char),1,file);
-        std::fwrite(rooms[i].getHeight(),sizeof(char),1,file);
+        std::fwrite(rooms[i].getHeight(),sizeof(char),1,file);*/
         bytesWritten += 4;
     }
     return bytesWritten;
@@ -207,5 +207,25 @@ void Dungeon::applyRoom(Room *room) {
 }
 
 Room* Room::getClosestRoom(Room *rooms) {
+//begin by assuming first room is closest
+    Room *temp = &rooms[0];
+    //perform a sequential search on the rooms, updating the temp pointer if any rooms are found to be closer.
+    for (int i = 1; i < NUM_ROOMS; ++i) {
+        if(rooms[i].getX()==0){ //meaning that the room is not yet initialized
+            break;
+        }
+        else{
+            if(compareDistanceCtrd(temp,&rooms[i])>0){
+                temp = &rooms[i];
+            }
+        }
+    }
+    return temp;
+}
 
+int Room::dotProduct(int y1, int x1, int y2, int x2) {
+    int xProduct = (x1-x) * (x2-x);
+    int yProduct = (y1-y) * (y2-y);
+
+    return xProduct+yProduct;
 }
